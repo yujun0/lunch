@@ -1,0 +1,98 @@
+<h2>
+  {{ title }}
+</h2>
+
+<!-- 摺疊勾選清單 -->
+<div class="checkbox">
+  <ul class="col-11">
+    <kendo-expansionpanel
+      [expanded]="true"
+      title="店家清單"
+      class="expansionpanelTitle"
+    >
+      <li *ngFor="let item of checklist">
+        <label class="expansionpanelContent">
+          <input
+            type="checkbox"
+            kendoCheckBox
+            [(ngModel)]="item.isSelected"
+            name="list_name"
+            value="{{ item.id }}"
+            (change)="isAllSelected()"
+          />
+          {{ item.name }}
+        </label>
+      </li>
+    </kendo-expansionpanel>
+  </ul>
+</div>
+
+<!-- 工具欄 -->
+<div class="toolbar">
+  <button
+    class="button-1"
+    kendoButton
+    iconClass="k-icon k-i-check"
+    themeColor="info"
+    (click)="allSelected()"
+  >
+    全選
+  </button>
+  <button
+    class="button-2"
+    kendoButton
+    iconClass="k-icon k-i-cancel"
+    themeColor="light"
+    (click)="cancelSelected()"
+  >
+    取消
+  </button>
+  <button
+    class="button-3"
+    kendoButton
+    iconClass="k-icon k-i-search"
+    themeColor="primary"
+    (click)="paused = true; randomSelect(); show(); expansionPanel()"
+  >
+    開始選店
+  </button>
+</div>
+
+<!-- 隨機選店輪播圖片 -->
+<div *ngIf="isShow">
+  <kendo-scrollview
+    class="scrollView"
+    #sv
+    [data]="imageList"
+    [width]="width"
+    [height]="height"
+    [endless]="true"
+    [animate]="animate"
+    [activeIndex]="number"
+  >
+    <ng-template let-item="item">
+      <div class="contentCenter">
+        <img
+          src="{{ item }}"
+          [draggable]="false"
+        />
+      </div>
+    </ng-template>
+  </kendo-scrollview>
+</div>
+
+<!-- 選中店家名 -->
+<div *ngIf="isShow">
+  <!-- 彈跳窗dialog -->
+  <kendo-dialog title="隨機選中店家:" *ngIf="opened" (close)="close()">
+    <p style="margin: 30px; text-align: center">{{ store }}</p>
+    <kendo-dialog-actions>
+      <button kendoButton (click)="close()" themeColor="primary">確定</button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+</div>
+
+<!-- 選中店家名 -->
+<div *ngIf="isShow" class="text">
+  {{ store }}
+</div>

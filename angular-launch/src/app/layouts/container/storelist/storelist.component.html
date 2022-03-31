@@ -1,0 +1,74 @@
+<h2>
+  {{ title }}
+</h2>
+
+<!-- 欄位:店家名稱 -->
+<kendo-grid
+  class="content"
+  [data]="gridView"
+  kendoGridSelectBy="id"
+  [pageSize]="pageSize"
+  [skip]="skip"
+  [pageable]="true"
+  (pageChange)="pageChange($event)"
+>
+  <kendo-grid-column
+    field="name"
+    title="店家名稱"
+    [width]="60"
+    [headerStyle]="{
+      'background-color': '#666',
+      color: '#fff',
+      'text-align': 'center',
+      'font-size': '18px',
+      'font-weight': 'bold',
+      padding: '10px'
+    }"
+    [style]="{
+      'text-align': 'center',
+      'font-size': '15px',
+      'font-family': 'Microsoft JhengHei'
+    }"
+  >
+  </kendo-grid-column>
+  <!-- 欄位:店家圖片 -->
+  <kendo-grid-column
+    field="image"
+    title="店家圖片"
+    [width]="40"
+    [headerStyle]="{
+      'background-color': '#666',
+      color: '#fff',
+      'text-align': 'center',
+      'font-size': '18px',
+      'font-weight': 'bold',
+      padding: '10px'
+    }"
+    class="k-text-center"
+  >
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <img
+        class="image"
+        [src]="flagURL(dataItem)"
+        width="50"
+        class="k-text-center"
+      />
+    </ng-template>
+  </kendo-grid-column>
+  <!-- 欄位:店家google -->
+  <kendo-grid-column
+    field="google"
+    title="店家Google連結"
+    [width]="60"
+    class="k-text-center"
+    [headerStyle]="{
+      'background-color': '#666',
+      color: '#fff',
+      'text-align': 'center',
+      'font-size': '18px',
+      'font-weight': 'bold',
+      padding: '10px'
+    }"
+  >
+  </kendo-grid-column>
+</kendo-grid>

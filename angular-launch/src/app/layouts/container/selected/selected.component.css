@@ -1,0 +1,64 @@
+ul li {
+  display: inline;
+}
+
+.toolbar {
+  text-align: center;
+}
+
+h2 {
+  margin: 15px;
+  font-size: 1.8rem;
+  color: #4d4d4d;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+
+.expansionpanelTitle {
+  font-family: "Microsoft YaHei";
+  position: sticky;
+  padding: 5px;
+  font-size: 1.2rem;
+  color: #4d4d4d;
+}
+
+.expansionpanelContent {
+  font-size: 16px;
+}
+
+.button-1 {
+  /* margin: 10px; */
+  width: 70px;
+  height: 35px;
+  border: 1px solid #a7c3ee;
+  border-radius: 8px;
+}
+
+.button-2 {
+  margin: 0 10px;
+  width: 80px;
+  height: 38px;
+  border: 1px solid #eeefef;
+  border-radius: 8px;
+}
+
+.button-3 {
+  width: 105px;
+  height: 35px;
+  border: 1px solid #f4c6c3;
+  border-radius: 8px;
+}
+
+.scrollView {
+  margin-top: 30px;
+  background-color: #eff0f0;
+  border: 0 ;
+  text-align: center;
+}
+
+.text {
+  text-align: center;
+    margin-top: 25px;
+    font-size: 30px;
+}

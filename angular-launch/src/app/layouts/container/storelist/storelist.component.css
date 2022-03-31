@@ -1,0 +1,11 @@
+h2 {
+  margin: 15px;
+  font-size: 1.8rem;
+  color: #4d4d4d;
+  line-height: 1.35;
+  font-weight: 400;
+}
+
+.content {
+  margin-left: 15px;
+}

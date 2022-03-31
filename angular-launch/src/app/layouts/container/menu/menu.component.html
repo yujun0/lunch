@@ -1,0 +1,12 @@
+<!-- 店家清單 -->
+<div id="storelist" *ngIf="selectedItem === 'storelist'">
+  <app-storelist></app-storelist>
+</div>
+<!-- 隨機選店 -->
+<div id="random" *ngIf="selectedItem === 'random'">
+  <app-selected></app-selected>
+</div>
+<!-- 關於本網站 -->
+<div id="about" *ngIf="selectedItem === 'about'">
+  <app-about></app-about>
+</div>
