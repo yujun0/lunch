@@ -1,9 +1,9 @@
-<h2>
+<!-- <h2>
   {{ title }}
-</h2>
+</h2> -->
 
 <!-- 欄位:店家名稱 -->
-<kendo-grid
+<!-- <kendo-grid
   class="content"
   [data]="gridView"
   kendoGridSelectBy="id"
@@ -15,7 +15,7 @@
   <kendo-grid-column
     field="name"
     title="店家名稱"
-    [width]="60"
+    [width]="30"
     [headerStyle]="{
       'background-color': '#666',
       color: '#fff',
@@ -30,10 +30,12 @@
       'font-family': 'Microsoft JhengHei'
     }"
   >
-  </kendo-grid-column>
+  </kendo-grid-column> -->
   <!-- 欄位:店家圖片 -->
-  <kendo-grid-column
+  <!-- <kendo-grid-column
     field="image"
+    field="url"
+    field="google"
     title="店家圖片"
     [width]="40"
     [headerStyle]="{
@@ -42,7 +44,8 @@
       'text-align': 'center',
       'font-size': '18px',
       'font-weight': 'bold',
-      padding: '10px'
+      padding: '10px',
+      position: 'relative'
     }"
     class="k-text-center"
   >
@@ -50,16 +53,14 @@
       <img
         class="image"
         [src]="flagURL(dataItem)"
-        width="50"
-        class="k-text-center"
       />
     </ng-template>
-  </kendo-grid-column>
+  </kendo-grid-column> -->
   <!-- 欄位:店家google -->
-  <kendo-grid-column
+  <!-- <kendo-grid-column
     field="google"
     title="店家Google連結"
-    [width]="60"
+    [width]="30"
     class="k-text-center"
     [headerStyle]="{
       'background-color': '#666',
@@ -70,5 +71,45 @@
       padding: '10px'
     }"
   >
+  <ng-template kendoGridCellTemplate let-dataItem>
+    <a [href]="dataItem.google" target="_blank">{{ dataItem.google}}</a>
+  </ng-template>
+  </kendo-grid-column>
+</kendo-grid>-->
+
+<h2>
+  {{ title }}
+</h2>
+
+<!-- 欄位:店家名稱 -->
+<kendo-grid
+  class="content"
+  [data]="gridView"
+  [pageSize]="pageSize"
+  [skip]="skip"
+  [pageable]="true"
+  (pageChange)="pageChange($event)"
+>
+  <kendo-grid-column
+    field="店家"
+    [width]="100"
+    [headerStyle]="{
+      'background-color': '#666',
+      color: '#fff',
+      'text-align': 'center',
+      'font-size': '18px',
+      'font-weight': 'bold'
+    }"
+  >
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <h4 class="name">{{ dataItem.name }}</h4>
+      <p><img class="img" [src]="flagURL(dataItem)" /></p>
+      <p>
+        <a [href]="dataItem.google" target="_blank" class="link">{{
+          dataItem.google
+        }}</a>
+      </p>
+    </ng-template>
   </kendo-grid-column>
 </kendo-grid>
+

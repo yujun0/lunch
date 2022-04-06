@@ -3,8 +3,9 @@
 }
 
 .motivation {
-  margin-bottom: 20px;
-  margin-left: 15px;
+  margin-bottom: 3%;
+  margin-left: 5%;
+  margin-right: 5%;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 2px rgb(0 0 0 / 15%);
@@ -14,8 +15,9 @@
 }
 
 .record {
-  margin-bottom: 20px;
-  margin-left: 15px;
+  margin-bottom: 3%;
+  margin-left: 5%;
+  margin-right: 5%;
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 2px rgb(0 0 0 / 15%);
@@ -25,7 +27,7 @@
 }
 
 .title {
-  margin: 15px;
+  margin: 3% 5%;
   font-size: 1.8rem;
   color: #4d4d4d;
   line-height: 1.35;

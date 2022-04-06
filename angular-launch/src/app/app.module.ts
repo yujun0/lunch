@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Content
 import { AppComponent } from './app.component';
-import { MenuComponent } from './layouts/container/menu/menu.component';
+import { MenuComponent } from './layouts/menu/menu.component';
 import { SelectedComponent } from './layouts/container/selected/selected.component';
 import { StorelistComponent } from './layouts/container/storelist/storelist.component';
 import { FooterComponent } from './layouts/footer/footer/footer.component';
@@ -25,6 +25,7 @@ import { InputsModule } from '@progress/kendo-angular-inputs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule,  NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { AboutComponent } from './layouts/container/about/about.component';
+import { SimplelistComponent } from './layouts/container/simplelist/simplelist.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { AboutComponent } from './layouts/container/about/about.component';
     SelectedComponent,
     StorelistComponent,
     AboutComponent,
+    SimplelistComponent,
   ],
   imports: [
     BrowserAnimationsModule,

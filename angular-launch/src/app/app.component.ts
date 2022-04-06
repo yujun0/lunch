@@ -8,22 +8,23 @@ import { DrawerItem, DrawerSelectEvent } from '@progress/kendo-angular-layout';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
   selected: any;
-  title = 'launch';
-
+  title = 'angular-launch';
   ngOnInit(): void {
-    this.selected = 'storelist';
+    // this.selected = 'storelist';
+    // this.selected = 'simplelist';
+    this.selected = 'random';
+    // this.selected = 'test';
   }
 
   items: Array<DrawerItem> = [
-    { text: '店家清單', icon: 'k-i-file-txt', selected: true, id: 'storelist' },
-    { text: '隨機選店', icon: 'k-i-button', id: 'random' },
-    { text: '關於本網站', icon: 'k-i-globe-outline', id: 'about' }
+    { text: '隨機選店', icon: 'k-i-button', selected: true, id: 'random' },
+    { text: '店家清單', icon: 'k-i-set-column-position', id: 'storelist' },
+    { text: '店家簡易清單', icon: 'k-i-list-unordered', id: 'simplelist' },
+    { text: '關於本網站', icon: 'k-i-globe-outline', id: 'about' },
   ];
 
   onSelect(ev: DrawerSelectEvent): void {
     this.selected = ev.item.id;
   }
-
 }

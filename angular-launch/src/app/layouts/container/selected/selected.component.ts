@@ -33,8 +33,8 @@ export class SelectedComponent implements OnDestroy, AfterViewInit, OnInit {
   // 輪播圖
   @ViewChild('sv') private scrollView: any;
   paused = true;
-  public width = '100%';
-  public height = '600px';
+  width = '95%';
+  height = '400px';
   interval: any;
   animate: boolean = false;
   // 獲取URL
@@ -64,6 +64,7 @@ export class SelectedComponent implements OnDestroy, AfterViewInit, OnInit {
   public async ngOnInit(): Promise<void> {
     try {
       this.loadstoreList();
+      this.allSelected();
       this.getCheckedList();
     } catch (e) {
       console.error(SelectedComponent.name + ' ngOnInit failed:', e);
@@ -127,7 +128,7 @@ export class SelectedComponent implements OnDestroy, AfterViewInit, OnInit {
       if (this.paused) {
         this.scrollView.next();
       }
-    });
+    },10);
 
     await this.delay(2000);
     this.paused = false;
@@ -199,4 +200,8 @@ export class SelectedComponent implements OnDestroy, AfterViewInit, OnInit {
     this.opened = true;
   }
 
+  // 隨機陣列
+  shuffleArray(inputArray:any[]){
+    inputArray.sort(() => Math.random() - 0.5);
+  }
 }

@@ -1,8 +1,11 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
-html,body,my-app {
+
+html,
+body,
+my-app {
   padding: 0;
   height: 100%;
 }
@@ -46,19 +49,27 @@ kendo-drawer-container {
 }
 
 .mail-box {
-  margin-left: 30px;
+  /* margin-left: 30px; */
+  margin-left: 2%;
   line-height: 60px;
-  color: #686a6d;
+  color: #191919;
   font-size: 25px;
+  font-weight: 600;
 }
 
-app-footer{
+app-footer {
   flex: 0 0 auto;
 }
 
 .menu-content {
   display: flex;
   height: 100%;
-  color: #2868bc;
   box-shadow: 0 0 0 5px rgba(228, 231, 235, 0.5);
+
+}
+
+.menu-content kendo-drawer {
+  font-weight: bold;
+  width: 100%;
+
 }
