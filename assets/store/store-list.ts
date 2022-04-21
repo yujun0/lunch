@@ -79,4 +79,12 @@ export const storeList = [
     // url: '/assets/store/images/Vietnamese_noodles.jpg',
     google: 'https://goo.gl/maps/B65xwsZVKpqky5TQA',
   },
+  {
+    id: 11,
+    name: '廣東燒臘燴飯快餐',
+    imageURL: '11',
+    url: 'https://pic.pimg.tw/wayne265265/1542713155-991007944_n.jpg',
+    // url: '/assets/store/images/Vietnamese_noodles.jpg',
+    google: 'https://goo.gl/maps/yv7AYCp8oxJjgqb68',
+  }
 ];
