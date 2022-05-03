@@ -86,5 +86,13 @@ export const storeList = [
     url: 'https://pic.pimg.tw/wayne265265/1542713155-991007944_n.jpg',
     // url: '/assets/store/images/Vietnamese_noodles.jpg',
     google: 'https://goo.gl/maps/yv7AYCp8oxJjgqb68',
-  }
+  },
+  {
+    id: 12,
+    name: '八方雲集(台北聯合店)',
+    imageURL: '12',
+    url: 'https://obs.line-scdn.net/0h-gXMhSA8ckhlNFudYXUNH1B2bSYNGnQANwddUQNCKDkRBD1LWVo1JkhxLSocUDcfWFU/r.800x0',
+    // url: '/assets/store/images/Vietnamese_noodles.jpg',
+    google: 'https://goo.gl/maps/1obK331aJ3T5k5S58',
+  },
 ];
