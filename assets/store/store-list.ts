@@ -95,4 +95,12 @@ export const storeList = [
     // url: '/assets/store/images/Vietnamese_noodles.jpg',
     google: 'https://goo.gl/maps/1obK331aJ3T5k5S58',
   },
+  {
+    id: 13,
+    name: '兩隻小魚甜不辣-忠孝店',
+    imageURL: '13',
+    url: 'https://live.staticflickr.com/5683/21344170840_3c4e7d32e8_c.jpg',
+    // url: '/assets/store/images/Vietnamese_noodles.jpg',
+    google: 'https://goo.gl/maps/Si8wop7ejgEM5Bk57',
+  },
 ];
