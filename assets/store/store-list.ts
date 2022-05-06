@@ -67,7 +67,7 @@ export const storeList = [
     id: 9,
     name: '鳳姐快餐便當',
     imageURL: '9',
-    url: 'https://scontent.ftpe8-1.fna.fbcdn.net/v/t1.6435-9/39240177_198326717558248_1499228175132000256_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=e3f864&_nc_ohc=w7p70ZMixesAX8SmwWV&_nc_ht=scontent.ftpe8-1.fna&oh=00_AT86v9MIrnfs5SjWOCGhNeomB1y7QCj6UoNYHJZOEqzdrg&oe=62647E73',
+    url: 'https://mnya.tw/yo/wp-content/uploads/2019/1181-2.jpg',
     // url: '/assets/store/images/Boxed_meal.jpg',
     google: 'https://goo.gl/maps/dzBYRgGCyTQSYxAa9',
   },
