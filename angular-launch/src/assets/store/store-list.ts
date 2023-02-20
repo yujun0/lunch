@@ -79,4 +79,19 @@ export const storeList = [
     // url: '/assets/store/images/Vietnamese_noodles.jpg',
     google: 'https://goo.gl/maps/B65xwsZVKpqky5TQA',
   },
+    {
+    id: 11,
+    name: '飯點台式自助餐',
+    imageURL: '11',
+    url: 'https://lh3.googleusercontent.com/p/AF1QipMvSfMCO9Wp2G9E0t4Oo49OfM5GxO_kNM3ZgAhQ=s680-w680-h510',
+    // url: '/assets/store/images/Vietnamese_noodles.jpg',
+    google: 'https://goo.gl/maps/gBPn4EzFDD8fm2G26',
+  },    {
+    id: 12,
+    name: '寶玉牛肉麵&自助餐',
+    imageURL: '12',
+    url: 'https://lh3.googleusercontent.com/p/AF1QipN5btcQia_HlZ8lL2wgFZr2aul75up6pvtEMBoN=s680-w680-h510',
+    // url: '/assets/store/images/Vietnamese_noodles.jpg',
+    google: 'https://goo.gl/maps/ZCiW8LbUC9bW8bBq7',
+  }
 ];
