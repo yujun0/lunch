@@ -10,7 +10,7 @@ npm install
 
 # 建置專案
 echo "🔨 建置專案..."
-ng build --prod
+npx ng build --prod
 
 # 檢查建置結果
 if [ $? -eq 0 ]; then
@@ -22,6 +22,11 @@ if [ $? -eq 0 ]; then
     echo "1. GitHub Pages: 將 dist/ 內容推送到 gh-pages 分支"
     echo "2. Netlify: 將 dist/ 目錄拖拽到 Netlify"
     echo "3. Vercel: 連接 GitHub 倉庫自動部署"
+    echo ""
+    echo "GitHub Pages 快速部署："
+    echo "git add ."
+    echo "git commit -m '🚀 Deploy lunch selector'"
+    echo "git push origin main"
     echo ""
     echo "🎉 部署完成！享受你的午餐選擇應用程式吧！"
 else

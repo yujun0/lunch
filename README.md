@@ -1,92 +1,188 @@
-# kendo-angular-launch
+# 🍽️ 午餐吃什麼 - 隨機選店應用程式
 
+一個幫助你決定午餐要吃什麼的有趣應用程式！使用炫酷的輪盤動畫來隨機選擇餐廳，讓選擇困難症患者不再煩惱！
 
+## 🎯 線上體驗
 
-## Getting started
+**[🚀 立即體驗](https://你的用戶名.github.io/你的倉庫名/)**
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+> 📝 **設定提醒**：請參考 [SETUP.md](SETUP.md) 來設定你的 GitHub Pages 部署
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## ✨ 最新改進 (2025年版本)
 
-## Add your files
+### 🎯 全新功能特色
+- **🎲 炫酷輪盤抽獎** - 全新設計的動畫輪盤，帶來真實的抽獎體驗
+- **📱 完美響應式** - 針對手機和桌面完全優化的使用體驗
+- **🎨 現代化設計** - 漸層背景、圓角設計、流暢動畫效果
+- **⚡ 智能動畫** - 逐漸減速的輪盤效果，增加緊張感和期待感
+- **🏪 靈活店家管理** - 可自由選擇參與抽獎的餐廳
+- **🗺️ 一鍵導航** - 直接連結 Google 地圖，立即前往用餐
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### 🔧 技術改進
+- **重構程式碼結構** - 更清晰的組件架構和類型安全
+- **優化動畫性能** - 流暢的CSS動畫和JavaScript控制
+- **改善錯誤處理** - 圖片載入失敗的優雅降級
+- **增強可維護性** - 模組化設計，易於擴展和修改
 
+## 🚀 快速開始
+
+### 環境需求
+- Node.js 14+
+- Angular CLI 13+
+
+### 安裝與運行
+```bash
+# 克隆專案
+git clone https://github.com/你的用戶名/你的倉庫名.git
+cd 你的倉庫名
+
+# 安裝依賴
+npm install
+
+# 啟動開發伺服器
+ng serve
+
+# 開啟瀏覽器前往
+http://localhost:4200
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/yujun.lin/kendo-angular-launch.git
-git branch -M main
-git push -uf origin main
+
+### 建置部署
+```bash
+# 建置生產版本
+ng build --prod
+
+# 建置檔案位於 dist/ 目錄
 ```
 
-## Integrate with your tools
+## 📱 使用指南
 
-- [ ] [Set up project integrations](https://gitlab.com/yujun.lin/kendo-angular-launch/-/settings/integrations)
+### 🎯 隨機抽獎模式
+1. **選擇參與店家** - 展開店家清單，勾選想要參與抽獎的餐廳
+2. **開始抽獎** - 點擊「🎲 開始抽獎」按鈕
+3. **觀看輪盤** - 享受炫酷的輪盤轉動動畫，感受抽獎的刺激
+4. **查看結果** - 輪盤停止後顯示中獎餐廳
+5. **前往用餐** - 點擊「查看地圖」直接導航到餐廳
 
-## Collaborate with your team
+### 📋 其他功能
+- **店家清單** - 查看所有餐廳的詳細資訊和圖片
+- **簡易清單** - 快速瀏覽所有餐廳名稱和地圖連結
+- **關於頁面** - 了解應用程式的更多資訊
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## 🏪 自訂餐廳資料
 
-## Test and Deploy
+### 新增餐廳
+編輯 `src/assets/store/store-list.ts`：
+```typescript
+{
+  id: 13,
+  name: '新餐廳名稱',
+  imageURL: '13',
+  url: '餐廳圖片網址',
+  google: 'Google地圖分享連結',
+}
+```
 
-Use the built-in continuous integration in GitLab.
+編輯 `src/assets/store/images.ts`：
+```typescript
+"13": "餐廳圖片網址"
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### 圖片建議
+- 建議使用 16:9 或 1:1 比例的圖片
+- 圖片大小建議在 500KB 以下
+- 支援 JPG、PNG、WebP 格式
 
-***
+## 🛠️ 技術架構
 
-# Editing this README
+### 前端技術棧
+- **Angular 13** - 現代化前端框架
+- **TypeScript** - 類型安全的JavaScript
+- **Kendo UI for Angular** - 專業UI組件庫
+- **Bootstrap 5** - 響應式CSS框架
+- **CSS3 動畫** - 流暢的視覺效果
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### 專案結構
+```
+src/
+├── app/
+│   ├── layouts/
+│   │   ├── container/
+│   │   │   ├── selected/     # 隨機抽獎組件
+│   │   │   ├── storelist/    # 店家清單組件
+│   │   │   ├── simplelist/   # 簡易清單組件
+│   │   │   └── about/        # 關於頁面組件
+│   │   └── footer/           # 頁尾組件
+│   └── app.component.*       # 主應用程式組件
+├── assets/
+│   └── store/
+│       ├── store-list.ts     # 餐廳資料
+│       ├── images.ts         # 圖片對應表
+│       └── images/           # 本地圖片資源
+└── styles.css                # 全域樣式
+```
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## 📦 部署選項
 
-## Name
-Choose a self-explaining name for your project.
+### GitHub Pages
+```bash
+ng build --prod --base-href="/your-repo-name/"
+# 將 dist/ 內容推送到 gh-pages 分支
+```
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+### Netlify
+```bash
+ng build --prod
+# 將 dist/ 目錄拖拽到 Netlify 部署
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Vercel
+```bash
+ng build --prod
+# 連接 GitHub 倉庫自動部署
+```
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+## 🎨 自訂樣式
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### 主要樣式檔案
+- `src/app/layouts/container/selected/selected.component.css` - 抽獎輪盤樣式
+- `src/styles.css` - 全域樣式和主題
+- `src/app/app.component.css` - 應用程式佈局樣式
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### 自訂主題色彩
+在 `src/styles.css` 中修改 CSS 變數：
+```css
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-gradient: linear-gradient(45deg, #ff6b6b, #feca57);
+}
+```
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## 🤝 貢獻指南
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+歡迎提交 Issue 和 Pull Request！
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+### 開發流程
+1. Fork 這個專案
+2. 創建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 開啟 Pull Request
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+### 報告問題
+請在 GitHub Issues 中詳細描述：
+- 問題重現步驟
+- 預期行為
+- 實際行為
+- 瀏覽器和版本資訊
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## 📄 授權
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+MIT License - 詳見 [LICENSE](LICENSE) 檔案
 
-## License
-For open source projects, say how it is licensed.
+## 🙏 致謝
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+感謝所有為這個專案做出貢獻的開發者和使用者！
+
+---
+
+**讓選擇午餐變得有趣！** 🎉
