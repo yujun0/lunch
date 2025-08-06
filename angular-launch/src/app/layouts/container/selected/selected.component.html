@@ -1,98 +1,144 @@
-<h2>
-  {{ title }}
-</h2>
+<div class="random-selector-container">
+  <h2 class="title">{{ title }}</h2>
 
-<!-- 摺疊勾選清單 -->
-<div class="checkbox">
-  <ul class="col-11">
+  <!-- 店家選擇區域 -->
+  <div class="store-selection-area">
     <kendo-expansionpanel
-      [expanded]="true"
-      title="店家清單"
-      class="expansionpanelTitle"
+      [expanded]="!isSpinning && !showResult"
+      title="選擇參與抽獎的店家 ({{ checkedList.length }}/{{ checklist.length }})"
+      class="expansion-panel"
     >
-      <li *ngFor="let item of checklist">
-        <label class="expansionpanelContent">
-          <input
-            type="checkbox"
-            kendoCheckBox
-            [(ngModel)]="item.isSelected"
-            name="list_name"
-            value="{{ item.id }}"
-            (change)="isAllSelected()"
-          />
-          {{ item.name }}
-        </label>
-      </li>
+      <div class="store-list">
+        <div *ngFor="let store of checklist" class="store-item">
+          <label class="store-checkbox">
+            <input
+              type="checkbox"
+              kendoCheckBox
+              [(ngModel)]="store.isSelected"
+              (change)="onStoreSelectionChange()"
+              [disabled]="isSpinning"
+            />
+            <span class="store-name">{{ store.name }}</span>
+          </label>
+        </div>
+      </div>
     </kendo-expansionpanel>
-  </ul>
-</div>
+  </div>
 
-<!-- 工具欄 -->
-<div class="toolbar">
-  <button
-    class="button-1"
-    kendoButton
-    iconClass="k-icon k-i-check-circle"
-    themeColor="primary"
-    (click)="allSelected()"
-  >
-    全選
-  </button>
-  <button
-    class="button-2"
-    kendoButton
-    iconClass="k-icon k-i-cancel"
-    themeColor="base"
-    (click)="cancelSelected()"
-  >
-    取消
-  </button>
-  <button
-    class="button-3"
-    kendoButton
-    iconClass="k-icon k-i-search"
-    themeColor="success"
-    (click)="paused = true; randomSelect(); show(); expansionPanel()"
-  >
-    開始選店
-  </button>
-</div>
+  <!-- 控制按鈕 -->
+  <div class="control-buttons">
+    <button
+      kendoButton
+      iconClass="k-icon k-i-check-circle"
+      themeColor="primary"
+      (click)="selectAllStores()"
+      [disabled]="isSpinning"
+      class="control-btn"
+    >
+      全選
+    </button>
+    <button
+      kendoButton
+      iconClass="k-icon k-i-cancel"
+      themeColor="base"
+      (click)="deselectAllStores()"
+      [disabled]="isSpinning"
+      class="control-btn"
+    >
+      清除
+    </button>
+    <button
+      kendoButton
+      iconClass="k-icon k-i-refresh"
+      themeColor="base"
+      (click)="resetSelection()"
+      *ngIf="showResult"
+      class="control-btn"
+    >
+      重新開始
+    </button>
+  </div>
 
-<!-- 隨機選店輪播圖片 -->
-<div *ngIf="isShow">
-  <kendo-scrollview
-    class="scrollView"
-    #sv
-    [data]="imageList"
-    [width]="width"
-    [height]="height"
-    [endless]="true"
-    [animate]="animate"
-    [activeIndex]="number"
+  <!-- 開始抽獎按鈕 -->
+  <div class="start-button-container" *ngIf="!showResult">
+    <button
+      kendoButton
+      iconClass="k-icon k-i-play"
+      themeColor="success"
+      (click)="startRandomSelection()"
+      [disabled]="isSpinning || checkedList.length === 0"
+      class="start-button"
+      [class.spinning]="isSpinning"
+    >
+      <span *ngIf="!isSpinning">🎲 開始抽獎</span>
+      <span *ngIf="isSpinning">🎯 抽獎中...</span>
+    </button>
+  </div>
+
+  <!-- 抽獎輪盤區域 -->
+  <div class="lottery-wheel" *ngIf="isSpinning || showResult">
+    <div class="wheel-container">
+      <div class="wheel-frame">
+        <div class="store-display" [class.spinning]="isSpinning">
+          <div class="store-image" *ngIf="getCurrentStore()">
+            <img 
+              [src]="getStoreImageUrl(getCurrentStore()!)" 
+              [alt]="getCurrentStore()!.name"
+              (error)="$any($event.target).src='assets/store/images/default.jpg'"
+            />
+          </div>
+          <div class="store-name-display" *ngIf="getCurrentStore()">
+            {{ getCurrentStore()!.name }}
+          </div>
+        </div>
+      </div>
+      <div class="wheel-pointer">📍</div>
+    </div>
+  </div>
+
+  <!-- 結果顯示 -->
+  <div class="result-section" *ngIf="showResult && selectedStore">
+    <div class="result-card">
+      <div class="result-title">🎉 恭喜！今天就吃這家：</div>
+      <div class="result-store-name">{{ selectedStore?.name }}</div>
+      <div class="result-actions">
+        <button
+          kendoButton
+          themeColor="primary"
+          (click)="goToGoogleMaps()"
+          class="map-button"
+        >
+          📍 查看地圖
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 結果對話框 -->
+  <kendo-dialog 
+    title="🎉 抽獎結果" 
+    *ngIf="opened" 
+    (close)="closeDialog()"
+    class="result-dialog"
   >
-    <ng-template let-item="item">
-      <div class="contentCenter">
-        <img
-          src="{{ item }}"
-          [draggable]="false"
+    <div class="dialog-content">
+      <div class="dialog-store-image" *ngIf="selectedStore">
+        <img 
+          [src]="selectedStore ? getStoreImageUrl(selectedStore) : ''" 
+          [alt]="selectedStore?.name || ''"
+          (error)="$any($event.target).src='assets/store/images/default.jpg'"
         />
       </div>
-    </ng-template>
-  </kendo-scrollview>
-</div>
-
-<!-- 選中店家名 -->
-<div *ngIf="isShow">
-  <!-- 彈跳窗dialog -->
-  <kendo-dialog title="隨機選中店家:" *ngIf="opened" (close)="close()">
-    <p style="margin: 30px; text-align: center">{{ store }}</p>
+      <p class="dialog-store-name">{{ selectedStore?.name }}</p>
+      <p class="dialog-message">今天就決定是你了！</p>
+    </div>
     <kendo-dialog-actions>
-      <button kendoButton (click)="close()" themeColor="primary">確定</button>
+      <button kendoButton (click)="goToGoogleMaps()" themeColor="primary">
+        查看地圖
+      </button>
+      <button kendoButton (click)="closeDialog()" themeColor="base">
+        確定
+      </button>
     </kendo-dialog-actions>
   </kendo-dialog>
-</div>
-
-<!-- 選中店家名 -->
-<div *ngIf="isShow" class="text">
-  {{ store }}
 </div>

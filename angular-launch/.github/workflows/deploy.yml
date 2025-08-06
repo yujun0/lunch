@@ -1,0 +1,40 @@
+name: 🍽️ Deploy Lunch Selector
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout
+      uses: actions/checkout@v3
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+        cache: 'npm'
+        cache-dependency-path: angular-launch/package-lock.json
+        
+    - name: 📦 Install dependencies
+      run: |
+        cd angular-launch
+        npm ci
+        
+    - name: 🔨 Build
+      run: |
+        cd angular-launch
+        npx ng build --prod --base-href="/lunch/"
+        
+    - name: 🚀 Deploy to GitHub Pages
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./angular-launch/dist/kendo-angular-launch
+        cname: # 如果有自訂域名，在這裡設定

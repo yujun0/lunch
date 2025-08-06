@@ -1,207 +1,198 @@
 import {
   Component,
   OnInit,
-  ViewChild,
   OnDestroy,
-  AfterViewInit,
   ViewChildren,
   QueryList,
 } from '@angular/core';
 import { storeList } from 'src/assets/store/store-list';
-import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
-
 import { images } from 'src/assets/store/images';
-import { GridDataResult } from '@progress/kendo-angular-grid';
 import { ExpansionPanelComponent } from '@progress/kendo-angular-layout';
+
+interface Store {
+  id: number;
+  name: string;
+  imageURL: string;
+  url: string;
+  google: string;
+  isSelected?: boolean;
+}
 
 @Component({
   selector: 'app-selected',
   templateUrl: './selected.component.html',
   styleUrls: ['./selected.component.css'],
 })
-export class SelectedComponent implements OnDestroy, AfterViewInit, OnInit {
-
-  // checkbox
+export class SelectedComponent implements OnInit, OnDestroy {
   title = '隨機選店';
-  masterSelected: boolean;
-  checklist: any;
-  checkedList: any;
-  store: any;
-  showNavigationArrows = false;
-  showNavigationIndicators = false;
-  nameList: any[] = [];
-  // 輪播圖
-  @ViewChild('sv') private scrollView: any;
-  paused = true;
-  width = '95%';
-  height = '400px';
-  interval: any;
-  animate: boolean = false;
-  // 獲取URL
-  gridView!: GridDataResult;
-  storeList: any[] = storeList;
-  // 圖片List
-  imageList: any[];
-  isShow: boolean = false;
-  number: number = 0;
-  addParameter: boolean = false;
-  // Expended
-  @ViewChildren(ExpansionPanelComponent)
-  panels!: QueryList<ExpansionPanelComponent>;
-  // dialog
+
+  // 店家資料
+  checklist: Store[] = [];
+  checkedList: Store[] = [];
+  selectedStore: Store | null = null;
+
+  // 動畫狀態
+  isSpinning = false;
+  showResult = false;
+  currentDisplayIndex = 0;
+
+  // 輪盤動畫
+  spinInterval: any;
+  resultTimeout: any;
+
+  // UI 狀態
   opened = false;
 
-  constructor(config: NgbCarouselConfig) {
-    this.masterSelected = false;
-    this.checklist = storeList;
-    this.imageList = storeList;
-    this.getCheckedList();
-    config.showNavigationArrows = true;
-    config.showNavigationIndicators = true;
+  @ViewChildren(ExpansionPanelComponent)
+  panels!: QueryList<ExpansionPanelComponent>;
+
+  constructor() {
+    this.initializeStores();
   }
 
-  // 初始
-  public async ngOnInit(): Promise<void> {
-    try {
-      this.loadstoreList();
-      this.allSelected();
-      this.getCheckedList();
-    } catch (e) {
-      console.error(SelectedComponent.name + ' ngOnInit failed:', e);
+  ngOnInit(): void {
+    this.selectAllStores();
+    this.updateCheckedList();
+  }
+
+  ngOnDestroy(): void {
+    this.clearIntervals();
+  }
+
+  private initializeStores(): void {
+    this.checklist = storeList.map(store => ({
+      ...store,
+      isSelected: true
+    }));
+  }
+
+  private clearIntervals(): void {
+    if (this.spinInterval) {
+      clearInterval(this.spinInterval);
+    }
+    if (this.resultTimeout) {
+      clearTimeout(this.resultTimeout);
     }
   }
 
-  public ngAfterViewInit() {}
-
-  public ngOnDestroy() {
-    clearInterval(this.interval);
-  }
-
-  // 獲取店家圖片list
-  getImageList() {
-    this.imageList = [];
-    const image: any = images;
-    for (var i = 0; i < this.checkedList.length; i++) {
-      this.nameList.push(image[this.checkedList[i].imageURL]);
-    }
-  }
-
-  // 全選
-  allSelected() {
-    for (var i = 0; i < this.checklist.length; i++) {
-      this.checklist[i].isSelected = true;
-    }
-    this.getCheckedList();
+  // 全選店家
+  selectAllStores(): void {
+    this.checklist.forEach(store => store.isSelected = true);
+    this.updateCheckedList();
   }
 
   // 取消全選
-  cancelSelected() {
-    for (var i = 0; i < this.checklist.length; i++) {
-      this.checklist[i].isSelected = false;
-    }
-    this.getCheckedList();
+  deselectAllStores(): void {
+    this.checklist.forEach(store => store.isSelected = false);
+    this.updateCheckedList();
   }
 
-  // 獲取Checked的checkedList
-  getCheckedList() {
-    this.checkedList = [];
-    for (var i = 0; i < this.checklist.length; i++) {
-      if (this.checklist[i].isSelected) {
-        this.checkedList.push(this.checklist[i]);
+  // 更新已選擇的店家列表
+  updateCheckedList(): void {
+    this.checkedList = this.checklist.filter(store => store.isSelected);
+  }
+
+  // 當checkbox狀態改變時
+  onStoreSelectionChange(): void {
+    this.updateCheckedList();
+  }
+
+  // 開始隨機選店
+  startRandomSelection(): void {
+    if (this.checkedList.length === 0) {
+      alert('請至少選擇一家店家！');
+      return;
+    }
+
+    this.clearIntervals();
+    this.isSpinning = true;
+    this.showResult = false;
+    this.selectedStore = null;
+    this.collapsePanel();
+
+    // 快速輪播動畫
+    let spinSpeed = 50; // 初始速度
+    let spinCount = 0;
+    const maxSpins = 50 + Math.floor(Math.random() * 30); // 隨機轉動次數
+
+    this.spinInterval = setInterval(() => {
+      this.currentDisplayIndex = (this.currentDisplayIndex + 1) % this.checkedList.length;
+      spinCount++;
+
+      // 逐漸減速
+      if (spinCount > maxSpins * 0.7) {
+        spinSpeed += 10;
+        clearInterval(this.spinInterval);
+        this.spinInterval = setInterval(() => {
+          this.currentDisplayIndex = (this.currentDisplayIndex + 1) % this.checkedList.length;
+          spinCount++;
+
+          if (spinCount >= maxSpins) {
+            this.stopSpinning();
+          }
+        }, spinSpeed);
       }
-    }
+    }, spinSpeed);
   }
 
-  // 隨機選店
-  async randomSelect() {
-    let num = Math.floor(Math.random() * this.checkedList.length);
-    this.number = num;
-    this.paused = true;
-    this.imageList = [];
-    const image: any = images;
+  private stopSpinning(): void {
+    this.clearIntervals();
 
-    for (var i = 0; i < this.checkedList.length; i++) {
-      this.imageList.push(this.checkedList[i].url);
-    }
+    // 最終選擇
+    const finalIndex = Math.floor(Math.random() * this.checkedList.length);
+    this.currentDisplayIndex = finalIndex;
+    this.selectedStore = this.checkedList[finalIndex];
 
-    this.interval = setInterval(() => {
-      if (this.paused) {
-        this.scrollView.next();
-      }
-    },10);
-
-    await this.delay(2000);
-    this.paused = false;
-    this.store = this.checkedList[num].name;
-
-    await this.delay(10);
-    this.test();
-    await this.delay(10);
-    this.test();
-    this.open();
+    this.resultTimeout = setTimeout(() => {
+      this.isSpinning = false;
+      this.showResult = true;
+      this.openDialog();
+    }, 500);
   }
 
-  // Check All Checkbox
-  isAllSelected() {
-    this.masterSelected = this.checklist.every(function (item: any) {
-      return item.isSelected == true;
-    });
-    this.getCheckedList();
+  // 獲取當前顯示的店家
+  getCurrentStore(): Store | null {
+    if (this.checkedList.length === 0) return null;
+    return this.checkedList[this.currentDisplayIndex];
   }
 
-  // 載入storeList
-  loadstoreList(): void {
-    this.gridView = {
-      data: this.storeList,
-      total: this.storeList.length,
-    };
+  // 獲取店家圖片URL
+  getStoreImageUrl(store: Store): string {
+    const imageMap: any = images;
+    return imageMap[store.imageURL] || store.url;
   }
 
-  // 獲取圖片url
-  flagURL(dataItem: any): string {
-    const code: string = dataItem.imageURL;
-    const image: any = images;
-    return image[code];
-  }
-
-  // show
-  async show() {
-    this.isShow = true;
-    this.addParameter = true;
-  }
-
-  // delay method
-  delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  // test
-  test() {
-    this.delay(2000);
-    this.isShow = this.addParameter == true ? false : true;
-    this.addParameter = this.addParameter == true ? false : true;
-  }
-
-  // expansion
-  public expansionPanel(): void {
-    this.panels.forEach((panel) => {
+  // 摺疊面板
+  private collapsePanel(): void {
+    this.panels.forEach(panel => {
       if (panel.expanded) {
         panel.toggle();
       }
     });
   }
 
-  // 彈跳窗
-  close() {
-    this.opened = false;
-  }
-
-  open() {
+  // 對話框控制
+  openDialog(): void {
     this.opened = true;
   }
 
-  // 隨機陣列
-  shuffleArray(inputArray:any[]){
-    inputArray.sort(() => Math.random() - 0.5);
+  closeDialog(): void {
+    this.opened = false;
+  }
+
+  // 重新開始
+  resetSelection(): void {
+    this.isSpinning = false;
+    this.showResult = false;
+    this.selectedStore = null;
+    this.currentDisplayIndex = 0;
+    this.clearIntervals();
+  }
+
+  // 前往Google地圖
+  goToGoogleMaps(): void {
+    if (this.selectedStore?.google) {
+      window.open(this.selectedStore.google, '_blank');
+    }
   }
 }
