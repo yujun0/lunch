@@ -1,89 +1,108 @@
-# 🚀 快速設定指南
+# 🚀 GitHub Pages 部署指南
 
-## 部署到 GitHub Pages
+## 🎯 問題解決：為什麼顯示 README 而不是應用程式？
 
-### 1. 更新倉庫設定
-在 `.github/workflows/deploy.yml` 中，將 `lunch` 改成你的實際倉庫名稱：
+GitHub Pages 預設顯示 README.md，但我們需要部署 Angular 應用程式。以下是兩種解決方案：
 
-```yaml
-- name: 🔨 Build
-  run: npx ng build --base-href="/你的倉庫名稱/"
-```
+## 方法一：手動部署（推薦，最簡單）
 
-### 2. 推送到 GitHub
+### 1. 執行部署腳本
 ```bash
-git add .
-git commit -m "🚀 Deploy lunch selector app"
-git push origin main
+./deploy-manual.sh
 ```
 
-### 3. 啟用 GitHub Pages
-1. 前往你的 GitHub 倉庫
-2. 點擊 Settings
-3. 滾動到 Pages 區域
-4. Source 選擇 "Deploy from a branch"
-5. Branch 選擇 "gh-pages"
-6. 點擊 Save
+這個腳本會：
+- 自動建置你的 Angular 應用程式
+- 創建 gh-pages 分支
+- 將建置檔案推送到 gh-pages 分支
 
-### 4. 等待部署完成
-- GitHub Actions 會自動建置和部署
+### 2. 設定 GitHub Pages
+1. 前往你的 GitHub 倉庫
+2. 點擊 **Settings**
+3. 滾動到 **Pages** 區域
+4. **Source** 選擇 "Deploy from a branch"
+5. **Branch** 選擇 "gh-pages"
+6. **Folder** 選擇 "/ (root)"
+7. 點擊 **Save**
+
+### 3. 等待部署
 - 通常需要 2-5 分鐘
 - 完成後可在 `https://你的用戶名.github.io/你的倉庫名/` 訪問
 
-## 本地開發
+## 方法二：GitHub Actions 自動部署
 
-### 安裝依賴
+### 1. 設定 GitHub Pages
+1. 前往你的 GitHub 倉庫
+2. 點擊 **Settings**
+3. 滾動到 **Pages** 區域
+4. **Source** 選擇 "GitHub Actions"
+
+### 2. 推送程式碼
 ```bash
-npm install
+git add .
+git commit -m "🚀 Setup GitHub Pages deployment"
+git push origin main
 ```
 
-### 啟動開發伺服器
-```bash
-ng serve
-```
+### 3. 檢查 Actions
+- 前往 **Actions** 標籤
+- 查看部署狀態
+- 等待綠色勾勾出現
 
-### 建置生產版本
-```bash
-ng build
-```
+## 🔧 故障排除
 
-## 自訂餐廳資料
+### 問題：還是顯示 README
+**解決方案：**
+1. 確認 GitHub Pages 設定正確
+2. 檢查是否選擇了正確的分支（gh-pages 或 GitHub Actions）
+3. 等待幾分鐘讓 GitHub 更新
 
-編輯 `src/assets/store/store-list.ts` 來新增你的餐廳：
+### 問題：404 錯誤
+**解決方案：**
+1. 檢查倉庫名稱是否正確
+2. 確認 base-href 設定正確
+3. 重新執行部署腳本
 
-```typescript
-{
-  id: 13,
-  name: '你的餐廳名稱',
-  imageURL: '13',
-  url: '餐廳圖片網址',
-  google: 'Google地圖分享連結',
-}
-```
+### 問題：CSS/JS 檔案載入失敗
+**解決方案：**
+1. 確認 base-href 包含正確的倉庫名稱
+2. 檢查檔案路徑是否正確
 
-同時在 `src/assets/store/images.ts` 中新增：
+## 📝 手動檢查清單
 
-```typescript
-"13": "餐廳圖片網址"
-```
+- [ ] 執行 `./deploy-manual.sh` 或推送到 main 分支
+- [ ] GitHub Pages 設定為正確的來源
+- [ ] 等待 2-5 分鐘讓部署完成
+- [ ] 訪問 `https://你的用戶名.github.io/你的倉庫名/`
 
-## 故障排除
+## 🆘 還是不行？
 
-### 建置失敗
-- 檢查 Node.js 版本 (建議 16+)
-- 執行 `npm install` 重新安裝依賴
-- 檢查 TypeScript 錯誤
+如果還是顯示 README，請：
 
-### GitHub Pages 無法訪問
-- 確認 GitHub Pages 已啟用
-- 檢查 base-href 設定是否正確
-- 等待 GitHub Actions 完成部署
+1. **檢查 GitHub Pages 設定**：
+   - Settings > Pages
+   - 確認來源設定正確
 
-### 圖片無法載入
-- 檢查圖片 URL 是否有效
-- 確認圖片支援 CORS
-- 考慮使用 GitHub 或其他圖床服務
+2. **手動建置測試**：
+   ```bash
+   npx ng build --configuration production
+   # 檢查 dist/kendo-angular-launch/ 是否有 index.html
+   ```
 
-## 需要幫助？
+3. **檢查分支**：
+   ```bash
+   git branch -a
+   # 應該看到 gh-pages 分支
+   ```
 
-在 GitHub Issues 中提出問題，我們會盡快回覆！
+4. **強制重新部署**：
+   ```bash
+   ./deploy-manual.sh
+   ```
+
+## 🎉 成功後
+
+你的午餐選擇應用程式將在以下網址可用：
+`https://你的用戶名.github.io/你的倉庫名/`
+
+記得把這個網址分享給朋友們！
