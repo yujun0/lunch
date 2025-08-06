@@ -4,7 +4,7 @@
 
 ## 🎯 線上體驗
 
-**[🚀 立即體驗](https://你的用戶名.github.io/你的倉庫名/)**
+**[🚀 立即體驗](https://yujun0.github.io/lunch/)**
 
 > 📝 **設定提醒**：請參考 [SETUP.md](SETUP.md) 來設定你的 GitHub Pages 部署
 
@@ -33,8 +33,8 @@
 ### 安裝與運行
 ```bash
 # 克隆專案
-git clone https://github.com/你的用戶名/你的倉庫名.git
-cd 你的倉庫名
+git clone https://github.com/yujun0/lunch.git
+cd lunch
 
 # 安裝依賴
 npm install
