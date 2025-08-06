@@ -67,7 +67,7 @@ export const storeList = [
     id: 9,
     name: '鳳姐快餐便當',
     imageURL: '9',
-    url: 'https://mnya.tw/yo/wp-content/uploads/2019/1181-2.jpg',
+    url: 'https://scontent.ftpe8-1.fna.fbcdn.net/v/t1.6435-9/39240177_198326717558248_1499228175132000256_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=e3f864&_nc_ohc=w7p70ZMixesAX8SmwWV&_nc_ht=scontent.ftpe8-1.fna&oh=00_AT86v9MIrnfs5SjWOCGhNeomB1y7QCj6UoNYHJZOEqzdrg&oe=62647E73',
     // url: '/assets/store/images/Boxed_meal.jpg',
     google: 'https://goo.gl/maps/dzBYRgGCyTQSYxAa9',
   },
@@ -79,28 +79,19 @@ export const storeList = [
     // url: '/assets/store/images/Vietnamese_noodles.jpg',
     google: 'https://goo.gl/maps/B65xwsZVKpqky5TQA',
   },
-  {
+    {
     id: 11,
-    name: '廣東燒臘燴飯快餐',
+    name: '飯點台式自助餐',
     imageURL: '11',
-    url: 'https://pic.pimg.tw/wayne265265/1542713155-991007944_n.jpg',
+    url: 'https://lh3.googleusercontent.com/p/AF1QipMvSfMCO9Wp2G9E0t4Oo49OfM5GxO_kNM3ZgAhQ=s680-w680-h510',
     // url: '/assets/store/images/Vietnamese_noodles.jpg',
-    google: 'https://goo.gl/maps/yv7AYCp8oxJjgqb68',
-  },
-  {
+    google: 'https://goo.gl/maps/gBPn4EzFDD8fm2G26',
+  },    {
     id: 12,
-    name: '八方雲集(台北聯合店)',
+    name: '寶玉牛肉麵&自助餐',
     imageURL: '12',
-    url: 'https://obs.line-scdn.net/0h-gXMhSA8ckhlNFudYXUNH1B2bSYNGnQANwddUQNCKDkRBD1LWVo1JkhxLSocUDcfWFU/r.800x0',
+    url: 'https://lh3.googleusercontent.com/p/AF1QipN5btcQia_HlZ8lL2wgFZr2aul75up6pvtEMBoN=s680-w680-h510',
     // url: '/assets/store/images/Vietnamese_noodles.jpg',
-    google: 'https://goo.gl/maps/1obK331aJ3T5k5S58',
-  },
-  {
-    id: 13,
-    name: '兩隻小魚甜不辣-忠孝店',
-    imageURL: '13',
-    url: 'https://live.staticflickr.com/5683/21344170840_3c4e7d32e8_c.jpg',
-    // url: '/assets/store/images/Vietnamese_noodles.jpg',
-    google: 'https://goo.gl/maps/Si8wop7ejgEM5Bk57',
-  },
+    google: 'https://goo.gl/maps/ZCiW8LbUC9bW8bBq7',
+  }
 ];
