@@ -1,115 +1,52 @@
-<!-- <h2>
-  {{ title }}
-</h2> -->
+<div class="storelist-container">
+  <h2 class="title">{{ title }}</h2>
 
-<!-- 欄位:店家名稱 -->
-<!-- <kendo-grid
-  class="content"
-  [data]="gridView"
-  kendoGridSelectBy="id"
-  [pageSize]="pageSize"
-  [skip]="skip"
-  [pageable]="true"
-  (pageChange)="pageChange($event)"
->
-  <kendo-grid-column
-    field="name"
-    title="店家名稱"
-    [width]="30"
-    [headerStyle]="{
-      'background-color': '#666',
-      color: '#fff',
-      'text-align': 'center',
-      'font-size': '18px',
-      'font-weight': 'bold',
-      padding: '10px'
-    }"
-    [style]="{
-      'text-align': 'center',
-      'font-size': '15px',
-      'font-family': 'Microsoft JhengHei'
-    }"
+  <kendo-grid
+    class="store-grid"
+    [data]="gridView"
+    [pageSize]="pageSize"
+    [skip]="skip"
+    [pageable]="true"
+    (pageChange)="pageChange($event)"
   >
-  </kendo-grid-column> -->
-  <!-- 欄位:店家圖片 -->
-  <!-- <kendo-grid-column
-    field="image"
-    field="url"
-    field="google"
-    title="店家圖片"
-    [width]="40"
-    [headerStyle]="{
-      'background-color': '#666',
-      color: '#fff',
-      'text-align': 'center',
-      'font-size': '18px',
-      'font-weight': 'bold',
-      padding: '10px',
-      position: 'relative'
-    }"
-    class="k-text-center"
-  >
-    <ng-template kendoGridCellTemplate let-dataItem>
-      <img
-        class="image"
-        [src]="flagURL(dataItem)"
-      />
-    </ng-template>
-  </kendo-grid-column> -->
-  <!-- 欄位:店家google -->
-  <!-- <kendo-grid-column
-    field="google"
-    title="店家Google連結"
-    [width]="30"
-    class="k-text-center"
-    [headerStyle]="{
-      'background-color': '#666',
-      color: '#fff',
-      'text-align': 'center',
-      'font-size': '18px',
-      'font-weight': 'bold',
-      padding: '10px'
-    }"
-  >
-  <ng-template kendoGridCellTemplate let-dataItem>
-    <a [href]="dataItem.google" target="_blank">{{ dataItem.google}}</a>
-  </ng-template>
-  </kendo-grid-column>
-</kendo-grid>-->
-
-<h2>
-  {{ title }}
-</h2>
-
-<!-- 欄位:店家名稱 -->
-<kendo-grid
-  class="content"
-  [data]="gridView"
-  [pageSize]="pageSize"
-  [skip]="skip"
-  [pageable]="true"
-  (pageChange)="pageChange($event)"
->
-  <kendo-grid-column
-    field="店家"
-    [width]="100"
-    [headerStyle]="{
-      'background-color': '#666',
-      color: '#fff',
-      'text-align': 'center',
-      'font-size': '18px',
-      'font-weight': 'bold'
-    }"
-  >
-    <ng-template kendoGridCellTemplate let-dataItem>
-      <h4 class="name">{{ dataItem.name }}</h4>
-      <p><img class="img" [src]="flagURL(dataItem)" /></p>
-      <p>
-        <a [href]="dataItem.google" target="_blank" class="link">{{
-          dataItem.google
-        }}</a>
-      </p>
-    </ng-template>
-  </kendo-grid-column>
-</kendo-grid>
+    <kendo-grid-column
+      field="店家資訊"
+      [width]="100"
+      [headerStyle]="{
+        'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'color': '#fff',
+        'text-align': 'center',
+        'font-size': '18px',
+        'font-weight': 'bold',
+        'border': 'none'
+      }"
+    >
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div class="store-card">
+          <div class="store-visual-small" 
+               [style.background]="getStoreVisual(dataItem).gradient">
+            <div class="store-emoji-small">
+              {{ getStoreVisual(dataItem).emoji }}
+            </div>
+            <div class="store-initial-small">
+              {{ getStoreInitial(dataItem) }}
+            </div>
+          </div>
+          <div class="store-info">
+            <h3 class="store-name">{{ dataItem.name }}</h3>
+            <div class="store-type">{{ getStoreVisual(dataItem).emoji }} 美食</div>
+            <button 
+              kendoButton 
+              themeColor="primary" 
+              class="map-button"
+              (click)="goToGoogleMaps(dataItem.google)"
+            >
+              📍 查看地圖
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+</div>
 

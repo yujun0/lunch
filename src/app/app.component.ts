@@ -21,6 +21,7 @@ export class AppComponent {
     { text: '隨機選店', icon: 'k-i-button', selected: true, id: 'random' },
     { text: '店家清單', icon: 'k-i-set-column-position', id: 'storelist' },
     { text: '店家簡易清單', icon: 'k-i-list-unordered', id: 'simplelist' },
+    { text: '店家管理', icon: 'k-i-edit', id: 'manage' },
     { text: '關於本網站', icon: 'k-i-globe-outline', id: 'about' },
   ];
 

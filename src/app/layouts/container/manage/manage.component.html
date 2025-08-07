@@ -1,0 +1,201 @@
+<div class="manage-container">
+  <h2 class="title">{{ title }}</h2>
+  
+  <!-- 工具列 -->
+  <div class="toolbar">
+    <button 
+      kendoButton 
+      themeColor="success" 
+      iconClass="k-icon k-i-plus"
+      (click)="showAddStoreForm()"
+      class="action-btn"
+    >
+      新增店家
+    </button>
+    
+    <button 
+      kendoButton 
+      themeColor="base" 
+      iconClass="k-icon k-i-refresh"
+      (click)="resetToDefault()"
+      class="action-btn"
+    >
+      重置預設
+    </button>
+    
+    <button 
+      kendoButton 
+      themeColor="info" 
+      iconClass="k-icon k-i-download"
+      (click)="exportData()"
+      class="action-btn"
+    >
+      匯出資料
+    </button>
+    
+    <label class="import-btn">
+      <input 
+        type="file" 
+        accept=".json" 
+        (change)="importData($event)"
+        style="display: none"
+      />
+      <button kendoButton themeColor="info" iconClass="k-icon k-i-upload">
+        匯入資料
+      </button>
+    </label>
+  </div>
+
+  <!-- 店家列表 -->
+  <div class="stores-grid">
+    <div *ngFor="let store of stores" class="store-card">
+      <div class="store-visual-manage" 
+           [style.background]="getStoreVisual(store).gradient">
+        <div class="store-emoji-manage">
+          {{ getStoreVisual(store).emoji }}
+        </div>
+        <div class="store-initial-manage">
+          {{ getStoreInitial(store) }}
+        </div>
+      </div>
+      
+      <div class="store-info">
+        <h3 class="store-name">{{ store.name }}</h3>
+        <div class="store-type-info">
+          {{ getStoreVisual(store).emoji }} {{ getStoreTypeLabel(store.type) }}
+        </div>
+        <div class="store-id">ID: {{ store.id }}</div>
+      </div>
+      
+      <div class="store-actions">
+        <button 
+          kendoButton 
+          themeColor="primary" 
+          iconClass="k-icon k-i-edit"
+          (click)="editStore(store)"
+          class="small-btn"
+          title="編輯"
+        >
+        </button>
+        
+        <button 
+          kendoButton 
+          themeColor="base" 
+          iconClass="k-icon k-i-hyperlink-globe"
+          (click)="goToGoogleMaps(store.google)"
+          class="small-btn"
+          title="查看地圖"
+        >
+        </button>
+        
+        <button 
+          kendoButton 
+          themeColor="error" 
+          iconClass="k-icon k-i-delete"
+          (click)="deleteStore(store)"
+          class="small-btn"
+          title="刪除"
+        >
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 新增/編輯表單對話框 -->
+  <kendo-dialog 
+    *ngIf="showAddForm"
+    [title]="editingStore ? '編輯店家' : '新增店家'"
+    (close)="cancelEdit()"
+    class="store-form-dialog"
+    [width]="500"
+  >
+    <div class="form-content">
+      <!-- 店家名稱 -->
+      <div class="form-group">
+        <label class="form-label">店家名稱 *</label>
+        <input 
+          kendoTextBox 
+          [(ngModel)]="formData.name"
+          placeholder="請輸入店家名稱"
+          class="form-input"
+        />
+      </div>
+
+      <!-- 店家類型 -->
+      <div class="form-group">
+        <label class="form-label">店家類型 *</label>
+        <kendo-dropdownlist
+          [(ngModel)]="formData.type"
+          [data]="storeTypes"
+          textField="label"
+          valueField="value"
+          class="form-input"
+        >
+          <ng-template kendoDropDownListItemTemplate let-dataItem>
+            <div class="type-option">
+              <div class="type-label">{{ dataItem.label }}</div>
+              <div class="type-description">{{ dataItem.description }}</div>
+            </div>
+          </ng-template>
+        </kendo-dropdownlist>
+      </div>
+
+      <!-- Google 地圖連結 -->
+      <div class="form-group">
+        <label class="form-label">Google 地圖連結 *</label>
+        <input 
+          kendoTextBox 
+          [(ngModel)]="formData.google"
+          placeholder="https://goo.gl/maps/..."
+          class="form-input"
+        />
+        <div class="form-hint">
+          💡 在 Google 地圖中找到店家，點擊「分享」→「複製連結」
+        </div>
+      </div>
+
+      <!-- 預覽 -->
+      <div class="form-group" *ngIf="formData.name">
+        <label class="form-label">預覽效果</label>
+        <div class="preview-card">
+          <div class="store-visual-preview" 
+               [style.background]="getPreviewVisual().gradient">
+            <div class="store-emoji-preview">
+              {{ getPreviewVisual().emoji }}
+            </div>
+            <div class="store-initial-preview">
+              {{ getPreviewInitial() }}
+            </div>
+          </div>
+          <div class="preview-name">{{ formData.name }}</div>
+        </div>
+      </div>
+    </div>
+
+    <kendo-dialog-actions>
+      <button kendoButton (click)="cancelEdit()" themeColor="base">
+        取消
+      </button>
+      <button kendoButton (click)="saveStore()" themeColor="primary">
+        {{ editingStore ? '更新' : '新增' }}
+      </button>
+    </kendo-dialog-actions>
+  </kendo-dialog>
+
+  <!-- 統計資訊 -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-label">總店家數：</span>
+      <span class="stat-value">{{ stores.length }}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">類型分布：</span>
+      <span class="stat-value">
+        <span *ngFor="let type of storeTypes; let last = last">
+          {{ type.label.substring(0, 2) }}{{ getStoreCountByType(type.value) }}
+          <span *ngIf="!last"> | </span>
+        </span>
+      </span>
+    </div>
+  </div>
+</div>

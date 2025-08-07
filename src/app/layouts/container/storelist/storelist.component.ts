@@ -1,33 +1,39 @@
-import { SelectedComponent } from './../selected/selected.component';
-import { storeList } from './../../../../assets/store/store-list';
+import { Store } from './../../../../assets/store/store-list';
+import { getStoreVisual, getStoreInitial, StoreVisual } from 'src/assets/store/store-visual';
+import { StoreService } from 'src/app/services/store.service';
 import { GridDataResult } from '@progress/kendo-angular-grid';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageChangeEvent } from '@progress/kendo-angular-grid';
-import { images } from 'src/assets/store/images';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-storelist',
   templateUrl: './storelist.component.html',
   styleUrls: ['./storelist.component.css'],
 })
-export class StorelistComponent implements OnInit {
+export class StorelistComponent implements OnInit, OnDestroy {
 
   title = '店家清單';
   gridView!: GridDataResult;
   skip = 0;
-  storeList: any[] = storeList;
+  storeList: Store[] = [];
   pageSize = 10;
-  photoURL: any[] = [];
+  
+  private storeSubscription: Subscription = new Subscription();
 
-  // 初始
-  public async ngOnInit(): Promise<void> {
-    try {
+  constructor(private storeService: StoreService) {}
+
+  ngOnInit(): void {
+    this.storeSubscription = this.storeService.stores$.subscribe(stores => {
+      this.storeList = stores;
       this.loadstoreList();
-    } catch (e) {
-      console.error(SelectedComponent.name + ' ngOnInit failed:', e);
-    }
+    });
   }
 
-  public pageChange(event: PageChangeEvent): void {
+  ngOnDestroy(): void {
+    this.storeSubscription.unsubscribe();
+  }
+
+  pageChange(event: PageChangeEvent): void {
     this.skip = event.skip;
     this.loadstoreList();
   }
@@ -39,11 +45,21 @@ export class StorelistComponent implements OnInit {
     };
   }
 
-  // 獲取圖片url
-  flagURL(dataItem: any): string {
-    const code: string = dataItem.imageURL;
-    const image: any = images;
-    return image[code];
+  // 獲取店家視覺配置
+  getStoreVisual(store: Store): StoreVisual {
+    return getStoreVisual(store.type, store.id);
+  }
+
+  // 獲取店名第一個字
+  getStoreInitial(store: Store): string {
+    return getStoreInitial(store.name);
+  }
+
+  // 前往Google地圖
+  goToGoogleMaps(googleUrl: string): void {
+    if (googleUrl) {
+      window.open(googleUrl, '_blank');
+    }
   }
 
 }

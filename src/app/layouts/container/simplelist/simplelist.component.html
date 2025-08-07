@@ -3,6 +3,15 @@
   
   <div class="store-grid">
     <div *ngFor="let store of storeList" class="store-card">
+      <div class="store-visual-mini" 
+           [style.background]="getStoreVisual(store).gradient">
+        <div class="store-emoji-mini">
+          {{ getStoreVisual(store).emoji }}
+        </div>
+        <div class="store-initial-mini">
+          {{ getStoreInitial(store) }}
+        </div>
+      </div>
       <div class="store-info">
         <h3 class="store-name">{{ store.name }}</h3>
         <button 

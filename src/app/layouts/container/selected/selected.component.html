@@ -80,12 +80,14 @@
     <div class="wheel-container">
       <div class="wheel-frame">
         <div class="store-display" [class.spinning]="isSpinning">
-          <div class="store-image" *ngIf="getCurrentStore()">
-            <img 
-              [src]="getStoreImageUrl(getCurrentStore()!)" 
-              [alt]="getCurrentStore()!.name"
-              (error)="$any($event.target).src='assets/store/images/default.jpg'"
-            />
+          <div class="store-visual" *ngIf="getCurrentStore()" 
+               [style.background]="getStoreVisual(getCurrentStore()!).gradient">
+            <div class="store-emoji">
+              {{ getStoreVisual(getCurrentStore()!).emoji }}
+            </div>
+            <div class="store-initial">
+              {{ getStoreInitial(getCurrentStore()!) }}
+            </div>
           </div>
           <div class="store-name-display" *ngIf="getCurrentStore()">
             {{ getCurrentStore()!.name }}
@@ -122,12 +124,14 @@
     class="result-dialog"
   >
     <div class="dialog-content">
-      <div class="dialog-store-image" *ngIf="selectedStore">
-        <img 
-          [src]="selectedStore ? getStoreImageUrl(selectedStore) : ''" 
-          [alt]="selectedStore?.name || ''"
-          (error)="$any($event.target).src='assets/store/images/default.jpg'"
-        />
+      <div class="dialog-store-visual" *ngIf="selectedStore"
+           [style.background]="getStoreVisual(selectedStore).gradient">
+        <div class="dialog-emoji">
+          {{ getStoreVisual(selectedStore).emoji }}
+        </div>
+        <div class="dialog-initial">
+          {{ getStoreInitial(selectedStore) }}
+        </div>
       </div>
       <p class="dialog-store-name">{{ selectedStore?.name }}</p>
       <p class="dialog-message">今天就決定是你了！</p>

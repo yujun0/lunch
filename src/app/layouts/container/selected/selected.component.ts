@@ -5,18 +5,11 @@ import {
   ViewChildren,
   QueryList,
 } from '@angular/core';
-import { storeList } from 'src/assets/store/store-list';
-import { images } from 'src/assets/store/images';
+import { Store } from 'src/assets/store/store-list';
+import { getStoreVisual, getStoreInitial, StoreVisual } from 'src/assets/store/store-visual';
+import { StoreService } from 'src/app/services/store.service';
 import { ExpansionPanelComponent } from '@progress/kendo-angular-layout';
-
-interface Store {
-  id: number;
-  name: string;
-  imageURL: string;
-  url: string;
-  google: string;
-  isSelected?: boolean;
-}
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-selected',
@@ -43,27 +36,26 @@ export class SelectedComponent implements OnInit, OnDestroy {
   // UI 狀態
   opened = false;
 
+  // 訂閱
+  private storeSubscription: Subscription = new Subscription();
+
   @ViewChildren(ExpansionPanelComponent)
   panels!: QueryList<ExpansionPanelComponent>;
 
-  constructor() {
-    this.initializeStores();
+  constructor(private storeService: StoreService) {
   }
 
   ngOnInit(): void {
-    this.selectAllStores();
-    this.updateCheckedList();
+    // 訂閱店家資料變化
+    this.storeSubscription = this.storeService.stores$.subscribe(stores => {
+      this.checklist = stores.map(store => ({ ...store, isSelected: true }));
+      this.updateCheckedList();
+    });
   }
 
   ngOnDestroy(): void {
     this.clearIntervals();
-  }
-
-  private initializeStores(): void {
-    this.checklist = storeList.map(store => ({
-      ...store,
-      isSelected: true
-    }));
+    this.storeSubscription.unsubscribe();
   }
 
   private clearIntervals(): void {
@@ -156,10 +148,14 @@ export class SelectedComponent implements OnInit, OnDestroy {
     return this.checkedList[this.currentDisplayIndex];
   }
 
-  // 獲取店家圖片URL
-  getStoreImageUrl(store: Store): string {
-    const imageMap: any = images;
-    return imageMap[store.imageURL] || store.url;
+  // 獲取店家視覺配置
+  getStoreVisual(store: Store): StoreVisual {
+    return getStoreVisual(store.type, store.id);
+  }
+
+  // 獲取店名第一個字
+  getStoreInitial(store: Store): string {
+    return getStoreInitial(store.name);
   }
 
   // 摺疊面板

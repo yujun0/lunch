@@ -26,6 +26,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule,  NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { AboutComponent } from './layouts/container/about/about.component';
 import { SimplelistComponent } from './layouts/container/simplelist/simplelist.component';
+import { ManageComponent } from './layouts/container/manage/manage.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SimplelistComponent } from './layouts/container/simplelist/simplelist.c
     StorelistComponent,
     AboutComponent,
     SimplelistComponent,
+    ManageComponent,
   ],
   imports: [
     BrowserAnimationsModule,

@@ -25,6 +25,9 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .store-card:hover {
@@ -33,10 +36,35 @@
   border-color: #667eea;
 }
 
+.store-visual-mini {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.store-emoji-mini {
+  font-size: 1.2rem;
+  margin-bottom: 2px;
+}
+
+.store-initial-mini {
+  font-size: 1rem;
+  font-weight: 900;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 .store-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex: 1;
 }
 
 .store-name {
