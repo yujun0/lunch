@@ -25,13 +25,13 @@ npx ng build
 
 ## 功能使用
 
-### 🎲 隨機抽獎
+### 🎯 隨機選店
 1. 點擊左側選單的「隨機選店」
-2. 展開「選擇參與抽獎的店家」面板
+2. 展開「選擇參與選店的店家」面板
 3. 勾選想要參與的餐廳（預設全選）
-4. 點擊「🎲 開始抽獎」按鈕
-5. 觀看炫酷的輪盤動畫
-6. 查看抽獎結果（顯示店名第一個字 + emoji + 漸層背景）
+4. 點擊「🍽️ 開始選店」按鈕
+5. 觀看從慢到快的選店動畫
+6. 查看選店結果（顯示店名第一個字 + emoji + 漸層背景）
 7. 點擊「查看地圖」前往餐廳
 
 ### 📋 店家清單
@@ -85,14 +85,14 @@ npx ng build
 
 ### 修改樣式
 - 主題色彩：`src/styles.css`
-- 抽獎輪盤：`src/app/layouts/container/selected/selected.component.css`
+- 選店動畫：`src/app/layouts/container/selected/selected.component.css`
 - 店家清單：`src/app/layouts/container/storelist/storelist.component.css`
 - 整體佈局：`src/app/app.component.css`
 
 ## 常見問題
 
-### Q: 如何修改抽獎動畫速度？
-A: 在 `selected.component.ts` 中修改 `spinSpeed` 和 `maxSpins` 參數。
+### Q: 如何修改選店動畫速度？
+A: 在 `selected.component.ts` 中修改 `spinSpeed` 和 `totalSpins` 參數。
 
 ### Q: 如何新增新的店家類型？
 A: 在 `store-visual.ts` 的 `storeVisualMap` 中新增類型配置。

@@ -129,39 +129,45 @@
   100% { transform: scale(1); }
 }
 
-/* 抽獎輪盤 */
-.lottery-wheel {
+/* 隨機選店區域 */
+.selection-area {
   display: flex;
   justify-content: center;
   margin: 40px 0;
 }
 
-.wheel-container {
+.selection-container {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.wheel-frame {
-  width: 300px;
-  height: 300px;
-  border: 8px solid #ffd700;
-  border-radius: 50%;
-  background: linear-gradient(45deg, #ff9a9e, #fecfef);
+.selection-frame {
+  width: 320px;
+  height: 320px;
+  border: 6px solid #667eea;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-.wheel-pointer {
-  font-size: 2rem;
-  margin-top: -20px;
-  z-index: 10;
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+.selection-indicator {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-top: 20px;
+  color: #667eea;
+  text-align: center;
+  padding: 10px 20px;
+  background: rgba(102, 126, 234, 0.1);
+  border-radius: 25px;
+  border: 2px solid rgba(102, 126, 234, 0.2);
 }
 
 .store-display {
@@ -175,13 +181,19 @@
   transition: all 0.3s ease;
 }
 
-.store-display.spinning {
-  animation: spin 0.1s linear infinite;
+.store-display.selecting {
+  animation: selecting 0.3s ease-in-out infinite alternate;
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+@keyframes selecting {
+  from { 
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to { 
+    transform: scale(1.05);
+    opacity: 1;
+  }
 }
 
 .store-visual {
@@ -332,9 +344,9 @@
     gap: 10px;
   }
   
-  .wheel-frame {
-    width: 250px;
-    height: 250px;
+  .selection-frame {
+    width: 280px;
+    height: 280px;
   }
   
   .store-image {
@@ -358,17 +370,22 @@
 }
 
 @media (max-width: 480px) {
-  .wheel-frame {
-    width: 200px;
-    height: 200px;
+  .selection-frame {
+    width: 240px;
+    height: 240px;
   }
   
-  .store-image {
-    width: 100px;
-    height: 100px;
+  .store-visual {
+    width: 140px;
+    height: 140px;
   }
   
   .store-name-display {
     font-size: 1rem;
+  }
+  
+  .selection-indicator {
+    font-size: 1rem;
+    margin-top: 15px;
   }
 }

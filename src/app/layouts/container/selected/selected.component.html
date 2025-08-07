@@ -59,7 +59,7 @@
     </button>
   </div>
 
-  <!-- 開始抽獎按鈕 -->
+  <!-- 開始選店按鈕 -->
   <div class="start-button-container" *ngIf="!showResult">
     <button
       kendoButton
@@ -70,16 +70,16 @@
       class="start-button"
       [class.spinning]="isSpinning"
     >
-      <span *ngIf="!isSpinning">🎲 開始抽獎</span>
-      <span *ngIf="isSpinning">🎯 抽獎中...</span>
+      <span *ngIf="!isSpinning">🍽️ 開始選店</span>
+      <span *ngIf="isSpinning">🔄 選擇中...</span>
     </button>
   </div>
 
-  <!-- 抽獎輪盤區域 -->
-  <div class="lottery-wheel" *ngIf="isSpinning || showResult">
-    <div class="wheel-container">
-      <div class="wheel-frame">
-        <div class="store-display" [class.spinning]="isSpinning">
+  <!-- 隨機選店區域 -->
+  <div class="selection-area" *ngIf="isSpinning || showResult">
+    <div class="selection-container">
+      <div class="selection-frame">
+        <div class="store-display" [class.selecting]="isSpinning">
           <div class="store-visual" *ngIf="getCurrentStore()" 
                [style.background]="getStoreVisual(getCurrentStore()!).gradient">
             <div class="store-emoji">
@@ -94,14 +94,15 @@
           </div>
         </div>
       </div>
-      <div class="wheel-pointer">📍</div>
+      <div class="selection-indicator" *ngIf="isSpinning">🔄 正在選擇...</div>
+      <div class="selection-indicator" *ngIf="showResult">✅ 就決定是這家！</div>
     </div>
   </div>
 
   <!-- 結果顯示 -->
   <div class="result-section" *ngIf="showResult && selectedStore">
     <div class="result-card">
-      <div class="result-title">🎉 恭喜！今天就吃這家：</div>
+      <div class="result-title">🍽️ 今天就吃這家：</div>
       <div class="result-store-name">{{ selectedStore?.name }}</div>
       <div class="result-actions">
         <button
@@ -118,7 +119,7 @@
 
   <!-- 結果對話框 -->
   <kendo-dialog 
-    title="🎉 抽獎結果" 
+    title="🍽️ 選店結果" 
     *ngIf="opened" 
     (close)="closeDialog()"
     class="result-dialog"
@@ -134,7 +135,7 @@
         </div>
       </div>
       <p class="dialog-store-name">{{ selectedStore?.name }}</p>
-      <p class="dialog-message">今天就決定是你了！</p>
+      <p class="dialog-message">今天就吃這家吧！</p>
     </div>
     <kendo-dialog-actions>
       <button kendoButton (click)="goToGoogleMaps()" themeColor="primary">

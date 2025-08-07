@@ -102,44 +102,56 @@ export class SelectedComponent implements OnInit, OnDestroy {
     this.selectedStore = null;
     this.collapsePanel();
 
-    // 快速輪播動畫
-    let spinSpeed = 50; // 初始速度
+    // 隨機選店動畫：從慢到快，最後定格
+    let spinSpeed = 800; // 初始速度（慢）
     let spinCount = 0;
-    const maxSpins = 50 + Math.floor(Math.random() * 30); // 隨機轉動次數
+    const totalSpins = 20 + Math.floor(Math.random() * 15); // 總切換次數
+    const accelerationPoint = Math.floor(totalSpins * 0.3); // 30% 時開始加速
+    const decelerationPoint = Math.floor(totalSpins * 0.8); // 80% 時開始減速
 
-    this.spinInterval = setInterval(() => {
+    const updateSpeed = () => {
+      if (spinCount < accelerationPoint) {
+        // 初期：慢速瀏覽
+        spinSpeed = 800 - (spinCount * 30);
+      } else if (spinCount < decelerationPoint) {
+        // 中期：快速切換
+        spinSpeed = 100 + Math.random() * 50;
+      } else {
+        // 後期：逐漸減速到定格
+        const remaining = totalSpins - spinCount;
+        spinSpeed = 200 + (remaining * 100);
+      }
+    };
+
+    const runAnimation = () => {
       this.currentDisplayIndex = (this.currentDisplayIndex + 1) % this.checkedList.length;
       spinCount++;
 
-      // 逐漸減速
-      if (spinCount > maxSpins * 0.7) {
-        spinSpeed += 10;
-        clearInterval(this.spinInterval);
-        this.spinInterval = setInterval(() => {
-          this.currentDisplayIndex = (this.currentDisplayIndex + 1) % this.checkedList.length;
-          spinCount++;
-
-          if (spinCount >= maxSpins) {
-            this.stopSpinning();
-          }
-        }, spinSpeed);
+      if (spinCount >= totalSpins) {
+        this.stopSpinning();
+        return;
       }
-    }, spinSpeed);
+
+      updateSpeed();
+      this.spinInterval = setTimeout(runAnimation, spinSpeed);
+    };
+
+    // 開始動畫
+    runAnimation();
   }
 
   private stopSpinning(): void {
     this.clearIntervals();
 
-    // 最終選擇
-    const finalIndex = Math.floor(Math.random() * this.checkedList.length);
-    this.currentDisplayIndex = finalIndex;
-    this.selectedStore = this.checkedList[finalIndex];
+    // 最終選擇（使用當前顯示的店家，讓動畫更自然）
+    this.selectedStore = this.checkedList[this.currentDisplayIndex];
 
+    // 短暫停留，讓用戶看清楚選中的店家
     this.resultTimeout = setTimeout(() => {
       this.isSpinning = false;
       this.showResult = true;
       this.openDialog();
-    }, 500);
+    }, 800);
   }
 
   // 獲取當前顯示的店家

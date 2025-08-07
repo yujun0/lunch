@@ -65,7 +65,7 @@ chmod +x deploy-manual.sh
    location.reload();
    ```
 
-### 問題：抽獎輪盤不轉動
+### 問題：選店動畫不運作
 **解決方案：**
 1. 確保至少選擇了一家店家
 2. 檢查瀏覽器控制台是否有 JavaScript 錯誤
