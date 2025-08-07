@@ -102,24 +102,24 @@ export class SelectedComponent implements OnInit, OnDestroy {
     this.selectedStore = null;
     this.collapsePanel();
 
-    // 隨機選店動畫：從慢到快，最後定格
-    let spinSpeed = 800; // 初始速度（慢）
+    // 快速隨機選店動畫：一開始就很快，後面超快
+    let spinSpeed = 100; // 初始速度就很快
     let spinCount = 0;
-    const totalSpins = 20 + Math.floor(Math.random() * 15); // 總切換次數
-    const accelerationPoint = Math.floor(totalSpins * 0.3); // 30% 時開始加速
-    const decelerationPoint = Math.floor(totalSpins * 0.8); // 80% 時開始減速
+    const totalSpins = 30 + Math.floor(Math.random() * 25); // 總切換次數
+    const superFastPoint = Math.floor(totalSpins * 0.3); // 30% 時進入超快模式
+    const slowDownPoint = Math.floor(totalSpins * 0.9); // 90% 時開始減速
 
     const updateSpeed = () => {
-      if (spinCount < accelerationPoint) {
-        // 初期：慢速瀏覽
-        spinSpeed = 800 - (spinCount * 30);
-      } else if (spinCount < decelerationPoint) {
-        // 中期：快速切換
-        spinSpeed = 100 + Math.random() * 50;
+      if (spinCount < superFastPoint) {
+        // 初期：快速切換
+        spinSpeed = 100 - (spinCount * 2);
+      } else if (spinCount < slowDownPoint) {
+        // 中期：超快切換（看不清楚）
+        spinSpeed = 15 + Math.random() * 15;
       } else {
-        // 後期：逐漸減速到定格
+        // 後期：快速減速到定格
         const remaining = totalSpins - spinCount;
-        spinSpeed = 200 + (remaining * 100);
+        spinSpeed = 30 + (remaining * 40);
       }
     };
 
@@ -143,15 +143,17 @@ export class SelectedComponent implements OnInit, OnDestroy {
   private stopSpinning(): void {
     this.clearIntervals();
 
-    // 最終選擇（使用當前顯示的店家，讓動畫更自然）
-    this.selectedStore = this.checkedList[this.currentDisplayIndex];
+    // 最終隨機選擇（完全隨機，不依賴當前顯示）
+    const finalIndex = Math.floor(Math.random() * this.checkedList.length);
+    this.currentDisplayIndex = finalIndex;
+    this.selectedStore = this.checkedList[finalIndex];
 
     // 短暫停留，讓用戶看清楚選中的店家
     this.resultTimeout = setTimeout(() => {
       this.isSpinning = false;
       this.showResult = true;
       this.openDialog();
-    }, 800);
+    }, 300);
   }
 
   // 獲取當前顯示的店家
