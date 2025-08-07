@@ -60,7 +60,13 @@ export class SelectedComponent implements OnInit, OnDestroy {
 
   private clearIntervals(): void {
     if (this.spinInterval) {
-      clearInterval(this.spinInterval);
+      if (typeof this.spinInterval === 'number') {
+        // 處理 requestAnimationFrame
+        cancelAnimationFrame(this.spinInterval);
+      } else {
+        // 處理 setTimeout/setInterval
+        clearTimeout(this.spinInterval);
+      }
     }
     if (this.resultTimeout) {
       clearTimeout(this.resultTimeout);
@@ -102,42 +108,43 @@ export class SelectedComponent implements OnInit, OnDestroy {
     this.selectedStore = null;
     this.collapsePanel();
 
-    // 快速隨機選店動畫：一開始就很快，後面超快
-    let spinSpeed = 100; // 初始速度就很快
-    let spinCount = 0;
-    const totalSpins = 30 + Math.floor(Math.random() * 25); // 總切換次數
-    const superFastPoint = Math.floor(totalSpins * 0.3); // 30% 時進入超快模式
-    const slowDownPoint = Math.floor(totalSpins * 0.9); // 90% 時開始減速
-
-    const updateSpeed = () => {
-      if (spinCount < superFastPoint) {
-        // 初期：快速切換
-        spinSpeed = 100 - (spinCount * 2);
-      } else if (spinCount < slowDownPoint) {
-        // 中期：超快切換（看不清楚）
-        spinSpeed = 15 + Math.random() * 15;
-      } else {
-        // 後期：快速減速到定格
-        const remaining = totalSpins - spinCount;
-        spinSpeed = 30 + (remaining * 40);
-      }
-    };
-
-    const runAnimation = () => {
-      this.currentDisplayIndex = (this.currentDisplayIndex + 1) % this.checkedList.length;
-      spinCount++;
-
-      if (spinCount >= totalSpins) {
+    // 使用 requestAnimationFrame 實現順暢動畫
+    const totalDuration = 2000; // 總動畫時間 2 秒
+    const startTime = performance.now();
+    let lastUpdateTime = 0;
+    
+    const runAnimation = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = elapsed / totalDuration;
+      
+      if (progress >= 1) {
         this.stopSpinning();
         return;
       }
-
-      updateSpeed();
-      this.spinInterval = setTimeout(runAnimation, spinSpeed);
+      
+      // 計算當前應該的更新間隔
+      let updateInterval;
+      if (progress < 0.2) {
+        updateInterval = 100; // 開始較慢
+      } else if (progress < 0.7) {
+        updateInterval = 40; // 中間很快
+      } else {
+        // 結束時逐漸減速
+        const slowProgress = (progress - 0.7) / 0.3;
+        updateInterval = 40 + (slowProgress * 120);
+      }
+      
+      // 只有在達到更新間隔時才切換
+      if (currentTime - lastUpdateTime >= updateInterval) {
+        this.currentDisplayIndex = (this.currentDisplayIndex + 1) % this.checkedList.length;
+        lastUpdateTime = currentTime;
+      }
+      
+      this.spinInterval = requestAnimationFrame(runAnimation);
     };
 
     // 開始動畫
-    runAnimation();
+    this.spinInterval = requestAnimationFrame(runAnimation);
   }
 
   private stopSpinning(): void {

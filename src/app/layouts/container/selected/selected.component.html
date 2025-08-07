@@ -78,7 +78,7 @@
   <!-- 隨機選店區域 -->
   <div class="selection-area" *ngIf="isSpinning || showResult">
     <div class="selection-container">
-      <div class="selection-frame">
+      <div class="selection-frame" [class.selecting]="isSpinning">
         <div class="store-display" [class.selecting]="isSpinning">
           <div class="store-visual" *ngIf="getCurrentStore()" 
                [style.background]="getStoreVisual(getCurrentStore()!).gradient">
