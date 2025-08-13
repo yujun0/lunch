@@ -13,6 +13,13 @@
 3. 在 "Workflow permissions" 區域選擇 "Read and write permissions"
 4. 點擊 Save
 
+### 問題：Actions 失敗，顯示 "Missing environment" 錯誤
+**解決方案：**
+這是 GitHub Pages 的新要求，我們已經在 GitHub Actions 配置中加入了 `environment` 設定。如果還是失敗：
+1. 確保 GitHub Pages 已啟用
+2. 在 Settings > Environments 中確認有 `github-pages` 環境
+3. 或使用簡化版的部署配置 `deploy-simple.yml`
+
 ### 問題：GitHub Pages 無法訪問
 **解決方案：**
 1. 確保 GitHub Pages 已啟用：
