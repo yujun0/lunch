@@ -2,119 +2,159 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  padding-bottom: 80px;
+  /* Space for pagination */
+}
+
+.header-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.header-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
 }
 
 .title {
-  text-align: center;
   font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 30px;
-  color: #333;
+  font-weight: 800;
+  color: #2d3436;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
 }
 
+/* Grid Layout */
 .store-grid {
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+/* Glass Card */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
 }
 
 .store-card {
-  display: flex;
-  align-items: center;
-  padding: 20px;
-  gap: 20px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  position: relative;
 }
 
 .store-card:hover {
-  background: #f8f9fa;
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+  background: rgba(255, 255, 255, 0.9);
 }
 
-.store-visual-small {
+.card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+/* Visuals */
+.store-visual {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  flex-shrink: 0;
+  margin-bottom: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.store-emoji-small {
-  font-size: 1.5rem;
-  margin-bottom: 2px;
+.store-emoji {
+  font-size: 2.5rem;
 }
 
-.store-initial-small {
-  font-size: 1.2rem;
-  font-weight: 900;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
-
-.store-info {
+.store-details {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  width: 100%;
+  margin-bottom: 15px;
 }
 
 .store-name {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #2d3436;
+  margin-bottom: 10px;
 }
 
-.store-type {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 0;
+.store-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
 }
 
-.map-button {
-  align-self: flex-start;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
+.location-badge,
+.type-badge {
+  font-size: 0.85rem;
+  padding: 4px 12px;
+  border-radius: 12px;
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
   font-weight: 500;
-  margin-top: 8px;
 }
 
-/* 響應式設計 */
-@media (max-width: 768px) {
-  .store-card {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
+.type-badge {
+  background: rgba(253, 203, 110, 0.2);
+  color: #e17055;
+}
+
+/* Map Button */
+.map-btn {
+  width: 100%;
+  border-radius: 15px;
+  font-weight: 600;
+  padding: 10px !important;
+  font-size: 1rem;
+}
+
+/* Pagination */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 30px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.page-info {
+  font-weight: 600;
+  color: #636e72;
+  font-size: 1.1rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .store-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .store-info {
-    align-items: center;
+
+  .storelist-container {
+    padding: 15px;
+    padding-bottom: 100px;
   }
-  
-  .map-button {
-    align-self: center;
-  }
-}
-
-/* Kendo Grid 樣式覆蓋 */
-::ng-deep .store-grid .k-grid-header {
-  border: none;
-}
-
-::ng-deep .store-grid .k-grid-content {
-  border: none;
-}
-
-::ng-deep .store-grid .k-grid-table td {
-  border: none;
-  padding: 0;
-}
-
-::ng-deep .store-grid .k-alt {
-  background: #f8f9fa;
 }

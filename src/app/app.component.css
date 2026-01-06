@@ -81,7 +81,7 @@
   scroll-behavior: smooth;
 }
 
-/* Bottom Tab Bar (Mobile) */
+/* Bottom Tab Bar (Mobile) - Fixed Positioning */
 .bottom-tabbar {
   display: none;
   /* Hidden by default on desktop */
@@ -92,7 +92,12 @@
   backdrop-filter: blur(10px);
   box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
   z-index: 1000;
-  flex-shrink: 0;
+
+  /* Fixed positioning crucial for visibility on scroll */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -143,7 +148,13 @@
 
   .main-content {
     padding: 10px;
-    padding-bottom: 80px;
-    /* Space for bottom bar */
+    padding-bottom: 90px;
+    /* Space for fixed bottom bar + extra padding */
+    height: 100%;
+    /* Ensure content takes full height */
+    overflow-y: auto;
+    /* Enable internal scrolling */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling on iOS */
   }
 }

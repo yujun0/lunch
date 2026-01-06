@@ -1,52 +1,47 @@
 <div class="storelist-container">
-  <h2 class="title">{{ title }}</h2>
+  <div class="header-section">
+    <div class="header-icon">📋</div>
+    <h2 class="title">{{ title }}</h2>
+  </div>
 
-  <kendo-grid
-    class="store-grid"
-    [data]="gridView"
-    [pageSize]="pageSize"
-    [skip]="skip"
-    [pageable]="true"
-    (pageChange)="pageChange($event)"
-  >
-    <kendo-grid-column
-      field="店家資訊"
-      [width]="100"
-      [headerStyle]="{
-        'background': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        'color': '#fff',
-        'text-align': 'center',
-        'font-size': '18px',
-        'font-weight': 'bold',
-        'border': 'none'
-      }"
-    >
-      <ng-template kendoGridCellTemplate let-dataItem>
-        <div class="store-card">
-          <div class="store-visual-small" 
-               [style.background]="getStoreVisual(dataItem).gradient">
-            <div class="store-emoji-small">
-              {{ getStoreVisual(dataItem).emoji }}
-            </div>
-            <div class="store-initial-small">
-              {{ getStoreInitial(dataItem) }}
-            </div>
-          </div>
-          <div class="store-info">
-            <h3 class="store-name">{{ dataItem.name }}</h3>
-            <div class="store-type">{{ getStoreVisual(dataItem).emoji }} 美食</div>
-            <button 
-              kendoButton 
-              themeColor="primary" 
-              class="map-button"
-              (click)="goToGoogleMaps(dataItem.google)"
-            >
-              📍 查看地圖
-            </button>
+  <div class="store-grid">
+    <div class="store-card glass-effect" *ngFor="let dataItem of gridView?.data">
+      <div class="card-content">
+        <div class="store-visual" [style.background]="getStoreVisual(dataItem).gradient">
+          <div class="store-emoji">{{ getStoreVisual(dataItem).emoji }}</div>
+        </div>
+
+        <div class="store-details">
+          <h3 class="store-name">{{ dataItem.name }}</h3>
+          <div class="store-meta">
+            <span class="location-badge" *ngIf="dataItem.location">
+              <span class="k-icon k-i-marker-pin"></span> {{ dataItem.location }}
+            </span>
+            <span class="type-badge">
+              {{ getStoreVisual(dataItem).emoji }} 美食
+            </span>
           </div>
         </div>
-      </ng-template>
-    </kendo-grid-column>
-  </kendo-grid>
-</div>
 
+        <button kendoButton themeColor="primary" fillMode="flat" class="map-btn"
+          (click)="goToGoogleMaps(dataItem.google)">
+          <span class="k-icon k-i-map-marker"></span> 導航
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Pagination controls -->
+  <div class="pagination-controls glass-effect">
+    <button kendoButton fillMode="clear" [disabled]="skip === 0" (click)="onPageChange(skip - pageSize)">
+      <span class="k-icon k-i-arrow-chevron-left"></span> 上一頁
+    </button>
+    <span class="page-info">
+      {{ (skip / pageSize) + 1 }} / {{ Math.ceil(storeList.length / pageSize) }}
+    </span>
+    <button kendoButton fillMode="clear" [disabled]="skip + pageSize >= storeList.length"
+      (click)="onPageChange(skip + pageSize)">
+      下一頁 <span class="k-icon k-i-arrow-chevron-right"></span>
+    </button>
+  </div>
+</div>

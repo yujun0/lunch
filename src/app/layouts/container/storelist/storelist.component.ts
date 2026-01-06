@@ -16,11 +16,12 @@ export class StorelistComponent implements OnInit, OnDestroy {
   gridView!: GridDataResult;
   skip = 0;
   storeList: Store[] = [];
-  pageSize = 10;
-  
+  pageSize = 9; // Changed to 9 for 3x3 grid
+  Math = Math; // Make Math available in template
+
   private storeSubscription: Subscription = new Subscription();
 
-  constructor(private storeService: StoreService) {}
+  constructor(private storeService: StoreService) { }
 
   ngOnInit(): void {
     this.storeSubscription = this.storeService.stores$.subscribe(stores => {
@@ -36,6 +37,12 @@ export class StorelistComponent implements OnInit, OnDestroy {
   pageChange(event: PageChangeEvent): void {
     this.skip = event.skip;
     this.loadstoreList();
+  }
+
+  onPageChange(newSkip: number): void {
+    this.skip = newSkip;
+    this.loadstoreList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   private loadstoreList(): void {
