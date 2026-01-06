@@ -1,87 +1,13 @@
 <div class="random-selector-container">
-  <h2 class="title">{{ title }}</h2>
+  <div class="main-card">
+    <h2 class="title">{{ title }}</h2>
 
-  <!-- 店家選擇區域 -->
-  <div class="store-selection-area">
-    <kendo-expansionpanel
-      [expanded]="!isSpinning && !showResult"
-      title="選擇參與抽獎的店家 ({{ checkedList.length }}/{{ checklist.length }})"
-      class="expansion-panel"
-    >
-      <div class="store-list">
-        <div *ngFor="let store of checklist" class="store-item">
-          <label class="store-checkbox">
-            <input
-              type="checkbox"
-              kendoCheckBox
-              [(ngModel)]="store.isSelected"
-              (change)="onStoreSelectionChange()"
-              [disabled]="isSpinning"
-            />
-            <span class="store-name">{{ store.name }}</span>
-          </label>
-        </div>
-      </div>
-    </kendo-expansionpanel>
-  </div>
-
-  <!-- 控制按鈕 -->
-  <div class="control-buttons">
-    <button
-      kendoButton
-      iconClass="k-icon k-i-check-circle"
-      themeColor="primary"
-      (click)="selectAllStores()"
-      [disabled]="isSpinning"
-      class="control-btn"
-    >
-      全選
-    </button>
-    <button
-      kendoButton
-      iconClass="k-icon k-i-cancel"
-      themeColor="base"
-      (click)="deselectAllStores()"
-      [disabled]="isSpinning"
-      class="control-btn"
-    >
-      清除
-    </button>
-    <button
-      kendoButton
-      iconClass="k-icon k-i-refresh"
-      themeColor="base"
-      (click)="resetSelection()"
-      *ngIf="showResult"
-      class="control-btn"
-    >
-      重新開始
-    </button>
-  </div>
-
-  <!-- 開始選店按鈕 -->
-  <div class="start-button-container" *ngIf="!showResult">
-    <button
-      kendoButton
-      iconClass="k-icon k-i-play"
-      themeColor="success"
-      (click)="startRandomSelection()"
-      [disabled]="isSpinning || checkedList.length === 0"
-      class="start-button"
-      [class.spinning]="isSpinning"
-    >
-      <span *ngIf="!isSpinning">🍽️ 開始選店</span>
-      <span *ngIf="isSpinning">🔄 選擇中...</span>
-    </button>
-  </div>
-
-  <!-- 隨機選店區域 -->
-  <div class="selection-area" *ngIf="isSpinning || showResult">
-    <div class="selection-container">
-      <div class="selection-frame" [class.selecting]="isSpinning">
-        <div class="store-display" [class.selecting]="isSpinning">
-          <div class="store-visual" *ngIf="getCurrentStore()" 
-               [style.background]="getStoreVisual(getCurrentStore()!).gradient">
+    <!-- Slot Machine Display -->
+    <div class="slot-machine-container">
+      <div class="slot-window">
+        <div class="slot-content" [class.spinning]="isSpinning">
+          <div class="store-visual" *ngIf="getCurrentStore()"
+            [style.background]="getStoreVisual(getCurrentStore()!).gradient">
             <div class="store-emoji">
               {{ getStoreVisual(getCurrentStore()!).emoji }}
             </div>
@@ -89,60 +15,62 @@
               {{ getStoreInitial(getCurrentStore()!) }}
             </div>
           </div>
-          <div class="store-name-display" *ngIf="getCurrentStore()">
-            {{ getCurrentStore()!.name }}
+          <div class="store-placeholder" *ngIf="!getCurrentStore()">
+            ❓
           </div>
         </div>
       </div>
-      <div class="selection-indicator" *ngIf="isSpinning">⚡ 快速選擇中...</div>
-      <div class="selection-indicator" *ngIf="showResult">🎯 選中了！</div>
-    </div>
-  </div>
-
-  <!-- 結果顯示 -->
-  <div class="result-section" *ngIf="showResult && selectedStore">
-    <div class="result-card">
-      <div class="result-title">🍽️ 今天就吃這家：</div>
-      <div class="result-store-name">{{ selectedStore?.name }}</div>
-      <div class="result-actions">
-        <button
-          kendoButton
-          themeColor="primary"
-          (click)="goToGoogleMaps()"
-          class="map-button"
-        >
-          📍 查看地圖
-        </button>
+      <div class="store-name-display" *ngIf="getCurrentStore()">
+        {{ getCurrentStore()!.name }}
+      </div>
+      <div class="store-name-display placeholder" *ngIf="!getCurrentStore()">
+        準備選店...
       </div>
     </div>
+
+    <!-- Controls -->
+    <div class="action-buttons">
+      <button class="start-btn" (click)="startRandomSelection()" [disabled]="isSpinning || checkedList.length === 0"
+        [class.spinning]="isSpinning">
+        <span *ngIf="!isSpinning">🚀 開始選店</span>
+        <span *ngIf="isSpinning">🎲 選擇中...</span>
+      </button>
+    </div>
+
+    <!-- Store Filter Expansion Panel -->
+    <div class="filter-section">
+      <kendo-expansionpanel [expanded]="!isSpinning && !showResult"
+        title="店家清單 ({{ checkedList.length }}/{{ checklist.length }})" class="custom-panel">
+        <div class="panel-actions">
+          <button kendoButton size="small" themeColor="primary" fillMode="solid" (click)="selectAllStores()">全選</button>
+          <button kendoButton size="small" themeColor="base" fillMode="solid" (click)="deselectAllStores()">清空</button>
+        </div>
+        <div class="store-list-grid">
+          <label *ngFor="let store of checklist" class="store-checkbox-item">
+            <input type="checkbox" kendoCheckBox [(ngModel)]="store.isSelected" (change)="onStoreSelectionChange()"
+              [disabled]="isSpinning" />
+            <span class="checkbox-label">{{ store.name }}</span>
+          </label>
+        </div>
+      </kendo-expansionpanel>
+    </div>
   </div>
 
-  <!-- 結果對話框 -->
-  <kendo-dialog 
-    title="🍽️ 選店結果" 
-    *ngIf="opened" 
-    (close)="closeDialog()"
-    class="result-dialog"
-  >
+  <!-- Result Dialog (Keeping existing logic but styling handles appearance) -->
+  <kendo-dialog title="🎉 決定了！" *ngIf="opened" (close)="closeDialog()" class="result-dialog" [minWidth]="300">
     <div class="dialog-content">
-      <div class="dialog-store-visual" *ngIf="selectedStore"
-           [style.background]="getStoreVisual(selectedStore).gradient">
-        <div class="dialog-emoji">
-          {{ getStoreVisual(selectedStore).emoji }}
-        </div>
-        <div class="dialog-initial">
-          {{ getStoreInitial(selectedStore) }}
-        </div>
+      <div class="dialog-visual" *ngIf="selectedStore" [style.background]="getStoreVisual(selectedStore).gradient">
+        <span class="dialog-emoji">{{ getStoreVisual(selectedStore).emoji }}</span>
       </div>
-      <p class="dialog-store-name">{{ selectedStore?.name }}</p>
-      <p class="dialog-message">今天就吃這家吧！</p>
+      <h3 class="dialog-store-name">{{ selectedStore?.name }}</h3>
+      <p class="dialog-message">今天就吃這家吧！Bon Appétit! 😋</p>
     </div>
     <kendo-dialog-actions>
-      <button kendoButton (click)="goToGoogleMaps()" themeColor="primary">
-        查看地圖
+      <button kendoButton (click)="goToGoogleMaps()" themeColor="primary" size="large">
+        📍 查看地圖
       </button>
-      <button kendoButton (click)="closeDialog()" themeColor="base">
-        確定
+      <button kendoButton (click)="closeDialog()" fillMode="flat" size="large">
+        好的
       </button>
     </kendo-dialog-actions>
   </kendo-dialog>

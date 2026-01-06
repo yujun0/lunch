@@ -1,32 +1,33 @@
 <div id="root-container">
-  <div class="custom-toolbar">
-    <button
-      kendoButton
-      icon="menu"
-      fillMode="flat"
-      size="large"
-      (click)="drawer.toggle && drawer.toggle()"
-    ></button>
-    <span class="mail-box">午餐吃什麼</span>
+  <!-- Desktop Top Navbar -->
+  <nav class="top-navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">🍽️</span>
+      <span class="brand-text">午餐吃什麼</span>
     </div>
-
-  <kendo-drawer-container>
-    <div class="menu-content">
-      <kendo-drawer
-        #drawer
-        [items]="items"
-        mode="push"
-        [mini]="true"
-        [expanded]="false"
-        (select)="onSelect($event)"
-        
-      >
-      </kendo-drawer>
+    <div class="nav-links">
+      <button *ngFor="let item of items" class="nav-item" [class.active]="selected === item.id"
+        (click)="onSelect(item.id)">
+        <span class="k-icon {{ item.icon }}"></span>
+        {{ item.text }}
+      </button>
     </div>
-    <kendo-drawer-content>
-      <app-menu [selectedItem]="selected"></app-menu>
-    </kendo-drawer-content>
-  </kendo-drawer-container>
+  </nav>
 
-  <app-footer></app-footer>
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <app-menu [selectedItem]="selected"></app-menu>
+  </main>
+
+  <!-- Mobile Bottom Tab Bar -->
+  <nav class="bottom-tabbar">
+    <button *ngFor="let item of items" class="tab-item" [class.active]="selected === item.id"
+      (click)="onSelect(item.id)">
+      <span class="k-icon {{ item.icon }}"></span>
+      <span class="tab-text">{{ item.text }}</span>
+    </button>
+  </nav>
+
+  <!-- app-footer removed as it's redundant with bottom bar on mobile, or can be kept if needed -->
+  <!-- <app-footer></app-footer> -->
 </div>
